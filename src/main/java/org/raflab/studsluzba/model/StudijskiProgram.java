@@ -26,4 +26,7 @@ public class StudijskiProgram {
 	@JsonIgnore
 	@OneToMany(mappedBy = "studProgram")
 	private List<Predmet> predmeti;
+
+	/*@ManyToOne
+	private VrstaStudija vrstaStudija;*/
 }

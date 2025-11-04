@@ -28,8 +28,7 @@ public class StudentPodaci {
 	 private String adresa;// not null
 	 private String brojTelefonaMobilni;  
 	 private String brojTelefonaFiksni;
-	 private String emailFaks;
-	 private String emailPriv;// not null
+	 private String email;// not null
 	 private String brojLicneKarte; 
 	 private String licnuKartuIzdao;
 	 private String mestoStanovanja;
