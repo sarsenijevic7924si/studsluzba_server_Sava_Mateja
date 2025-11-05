@@ -15,7 +15,5 @@ public class IspitniRok {
     private LocalDate pocetakRoka;
     private LocalDate zavrsetakRoka;
 
-    @ManyToMany
-    private List<Ispit> ispiti;
 
 }

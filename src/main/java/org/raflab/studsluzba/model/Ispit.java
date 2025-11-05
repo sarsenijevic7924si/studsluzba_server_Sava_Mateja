@@ -19,5 +19,10 @@ public class Ispit {
     @ManyToOne
     @JsonIgnore
     private Nastavnik nastavnik;
+    @ManyToOne
+    @JsonIgnore
+    private Predmet predmet;
+    @ManyToOne
+    private IspitniRok ispitniRok;
 
 }
