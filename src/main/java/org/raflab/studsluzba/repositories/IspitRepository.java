@@ -16,10 +16,7 @@ public interface IspitRepository extends JpaRepository<Ispit, Long> {
     List<Ispit> findAllByNastavnik(Long idNastavnik);
     @Query("select i from  Ispit i where i.nastavnik.id=:idNastavnik and i.jeZakljucen is true ")
     List<Ispit> findAllByNastavnikZakljucan(Long idNastavnik);
-    @Query("select i from  Ispit i where i.predmet.id=:idPredmet")
-    List<Ispit> findAllByPredmet(Long idPredmet);
-    @Query("select i from Ispit i where Ispit.ispitniRok=:idRok")
-    List<Ispit> findAllByIspitniRok(Long idRok);
+
 
 
 
