@@ -2,36 +2,41 @@ package org.raflab.studsluzba.controllers.request;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
 public class StudentPodaciRequest {
 
-    @NotNull
+    @NotEmpty
     private String ime;	  // not null
-    @NotNull
+    @NotEmpty
     private String prezime;  // not null
-    @NotNull
+    @NotEmpty
     private String srednjeIme;   // not null
+
     private String jmbg;
-    @NotNull
-    private LocalDate datumRodjenja;  // not null
+    private LocalDate datumRodjenja;
+
     private String mestoRodjenja;
-    @NotNull
-    private String mestoPrebivalista;  // not null
+    @NotEmpty
+    private String mestoPrebivalista;
+    // not null
     private String drzavaRodjenja;
-    @NotNull
-    private String drzavljanstvo;   // not null
+    @NotEmpty
+    private String drzavljanstvo;
+    // not null
     private String nacionalnost;   // samoizjasnjavanje, moze bilo sta
-    @NotNull
+    @NotEmpty
     private Character pol;    // not null
-    @NotNull
+    @NotEmpty
     private String adresa;  // not null
     private String brojTelefonaMobilni;
     private String brojTelefonaFiksni;
-    @NotNull
+    @NotEmpty
     private String email;  // not null
+
     private String brojLicneKarte;
     private String licnuKartuIzdao;
     private String mestoStanovanja;

@@ -14,6 +14,8 @@ public class IspitniRok {
     private long id;
     private LocalDate pocetakRoka;
     private LocalDate zavrsetakRoka;
+    @OneToMany
+    private List<Ispit> ispiti;
 
 
 }

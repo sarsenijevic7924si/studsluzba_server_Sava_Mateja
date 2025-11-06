@@ -1,6 +1,7 @@
 package org.raflab.studsluzba.controllers.response;
 
 import lombok.Data;
+import lombok.NonNull;
 
 import java.time.LocalDate;
 

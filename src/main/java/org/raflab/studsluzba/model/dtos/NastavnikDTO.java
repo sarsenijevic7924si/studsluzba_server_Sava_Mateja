@@ -1,14 +1,20 @@
 package org.raflab.studsluzba.model.dtos;
 
 
+import javax.validation.constraints.NotEmpty;
 
 public class NastavnikDTO {
 
 	private Long id;
+	@NotEmpty
 	private String ime;	  // not null
+	@NotEmpty
 	private String prezime;  // not null
-	private String srednjeIme;   // not null 
+	@NotEmpty
+	private String srednjeIme;   // not null
+	@NotEmpty
 	private String email;   // not null
+
 	private String brojTelefona;
 	private String adresa;
 	

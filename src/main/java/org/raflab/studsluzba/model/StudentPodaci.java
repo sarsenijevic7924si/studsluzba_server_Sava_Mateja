@@ -6,6 +6,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -14,6 +16,7 @@ public class StudentPodaci {
 	 @Id
 	 @GeneratedValue(strategy=GenerationType.IDENTITY)
 	 private Long id;
+	@NotNull
 	 private String ime;	  // not null
 	 private String prezime;  // not null
 	 private String srednjeIme;   // not null 

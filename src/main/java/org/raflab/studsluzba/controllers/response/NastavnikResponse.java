@@ -14,7 +14,7 @@ public class NastavnikResponse {
 
     @NonNull
     private Long id;
-    @NonNull
+
     private String ime;
     private String prezime;
     private String srednjeIme;

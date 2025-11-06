@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Data
@@ -13,7 +14,7 @@ public class Ispit {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private LocalDate datumOdrzavanja;
-    private LocalDate vremePocetka;
+    private LocalTime vremePocetka;
     private Boolean jeZakljucen;
 
     @ManyToOne
