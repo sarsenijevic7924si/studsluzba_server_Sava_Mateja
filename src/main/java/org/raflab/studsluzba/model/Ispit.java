@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -25,5 +26,7 @@ public class Ispit {
     private Predmet predmet;
     @ManyToOne
     private IspitniRok ispitniRok;
+    @OneToMany(mappedBy = "ispit")
+    private List<PrijavaIspita> prijave;
 
 }
