@@ -20,4 +20,5 @@ public interface StudijskiProgramRepository extends CrudRepository<StudijskiProg
 
 	@Query("select sp from StudijskiProgram sp where sp.oznaka = :oznaka order by sp.godinaAkreditacije desc")
 	List<StudijskiProgram> findByOznaka(@Param("oznaka") String oznaka);
+
 }

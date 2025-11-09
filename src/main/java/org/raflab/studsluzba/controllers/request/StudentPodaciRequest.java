@@ -17,12 +17,13 @@ public class StudentPodaciRequest {
     private String srednjeIme;   // not null
 
     private String jmbg;
+    @NotNull
     private LocalDate datumRodjenja;
 
     private String mestoRodjenja;
     @NotEmpty
     private String mestoPrebivalista;
-    // not null
+
     private String drzavaRodjenja;
     @NotEmpty
     private String drzavljanstvo;
@@ -41,4 +42,6 @@ public class StudentPodaciRequest {
     private String licnuKartuIzdao;
     private String mestoStanovanja;
     private String adresaStanovanja;   // u toku studija
+    private double uspehSrednja;
+    private double uspehPrijemni;
 }

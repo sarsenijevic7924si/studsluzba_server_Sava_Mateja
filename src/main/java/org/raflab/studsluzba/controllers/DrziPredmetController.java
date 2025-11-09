@@ -2,8 +2,11 @@ package org.raflab.studsluzba.controllers;
 
 import lombok.AllArgsConstructor;
 import org.raflab.studsluzba.controllers.request.DrziPredmetRequest;
+import org.raflab.studsluzba.model.dtos.DrziPredmetDTO;
 import org.raflab.studsluzba.services.DrziPredmetService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -17,4 +20,7 @@ public class DrziPredmetController {
     public void saveDrziPredmet(@RequestBody DrziPredmetRequest request) {
         drziPredmetService.saveDrziPredmet(request);
     }
+    //@GetMapping(path = "/all")
+    //public List<DrziPredmetDTO> getAllDrziPredmet()
+
 }

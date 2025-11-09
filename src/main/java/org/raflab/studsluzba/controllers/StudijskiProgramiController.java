@@ -3,13 +3,13 @@ package org.raflab.studsluzba.controllers;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
+import org.raflab.studsluzba.controllers.request.StudijskiProgramReqest;
+import org.raflab.studsluzba.controllers.response.StudijskiProgramResponse;
 import org.raflab.studsluzba.model.StudijskiProgram;
 import org.raflab.studsluzba.repositories.StudijskiProgramRepository;
+import org.raflab.studsluzba.services.StudijskiProgramService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
@@ -18,15 +18,31 @@ import org.springframework.web.bind.annotation.RestController;
 public class StudijskiProgramiController {
 	
 
-	final StudijskiProgramRepository studijskiProgramiRepo;
-	
-	@GetMapping(path = "/all/sorted")
-	public List<StudijskiProgram> getAllStudProgramiSortedDesc(){
-		return studijskiProgramiRepo.getAllSortedByGodinaDesc();
+
+	private final StudijskiProgramService service;
+
+	@PostMapping("/add")
+	public StudijskiProgramResponse add(@RequestBody StudijskiProgramReqest request) {
+		return service.saveStudijskiProgram(request);
 	}
 
-	@GetMapping(path="/oznaka/all")
-	public Iterable<String> getAllStudProgramOznaka() {
-		return studijskiProgramiRepo.findAllOznaka();
+	@PatchMapping("/update/{id}")
+	public StudijskiProgramResponse patch(@PathVariable Long id, @RequestBody StudijskiProgramReqest request) {
+		return service.updateStudijskiProgram(id, request);
+	}
+
+	@DeleteMapping("/delete/{id}")
+	public void delete(@PathVariable Long id) {
+		service.deleteStudijskiProgram(id);
+	}
+
+	@GetMapping("/all")
+	public List<StudijskiProgram> findAll() {
+		return service.findAll();
+	}
+
+	@GetMapping("/{id}")
+	public StudijskiProgramResponse findById(@PathVariable Long id) {
+		return service.findById(id);
 	}
 }

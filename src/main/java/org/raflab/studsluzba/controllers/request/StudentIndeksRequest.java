@@ -19,4 +19,8 @@ public class StudentIndeksRequest { //TODO - add notNull annotations
     private LocalDate vaziOd;//TODO - da li da setujm trenutni datum
     @NotNull
     private Long studentId;
+    @NotNull
+    private int broj;
+    @NotNull
+    private Integer ostvarenoEspb;
 }

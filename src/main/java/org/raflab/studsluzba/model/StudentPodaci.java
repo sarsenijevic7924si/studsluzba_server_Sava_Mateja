@@ -16,7 +16,6 @@ public class StudentPodaci {
 	 @Id
 	 @GeneratedValue(strategy=GenerationType.IDENTITY)
 	 private Long id;
-	@NotNull
 	 private String ime;	  // not null
 	 private String prezime;  // not null
 	 private String srednjeIme;   // not null 
