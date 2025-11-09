@@ -1,6 +1,8 @@
 package org.raflab.studsluzba.controllers.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.validation.constraints.NotEmpty;
@@ -8,6 +10,8 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class StudentIndeksRequest { //TODO - add notNull annotations
     @NonNull
     private int godina; //ako npr student mastera upisuje neki program, a godina presla u sledecu???
@@ -21,6 +25,6 @@ public class StudentIndeksRequest { //TODO - add notNull annotations
     private Long studentId;
     @NotNull
     private int broj;
-    @NotNull
+
     private Integer ostvarenoEspb;
 }
