@@ -6,9 +6,9 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.raflab.studsluzba.controllers.request.NastavnikRequest;
 import org.raflab.studsluzba.controllers.response.NastavnikResponse;
+import org.raflab.studsluzba.maperi.NastavnikMaper;
 import org.raflab.studsluzba.model.Nastavnik;
 import org.raflab.studsluzba.services.NastavnikService;
-import org.raflab.studsluzba.utils.Converters;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,20 +30,20 @@ public class NastavnikController {
 	
 	@PostMapping(path = "/add")
 	public Long addNewNastavnik(@RequestBody @Valid NastavnikRequest nastavnikRequest) {
-		Nastavnik nastavnik = nastavnikService.save(Converters.toNastavnik(nastavnikRequest));
+		Nastavnik nastavnik = nastavnikService.save(NastavnikMaper.toNastavnik(nastavnikRequest));
 		return nastavnik.getId();
 	}
 	
 	@GetMapping(path = "/all")
 	public List<NastavnikResponse> getAllNastavnik() {
-		return Converters.toNastavnikResponseList(nastavnikService.findAll());
+		return NastavnikMaper.toNastavnikResponseList(nastavnikService.findAll());
 	}
 
 	@GetMapping(path = "/{id}")
 	public NastavnikResponse getNastavnikById(@PathVariable Long id) {
 		Optional<Nastavnik> rez = nastavnikService.findById(id);
 
-		return rez.map(Converters::toNastavnikResponse).orElse(null);
+		return rez.map(NastavnikMaper::toNastavnikResponse).orElse(null);
 	}
 	
 	@GetMapping(path = "/search")
@@ -51,7 +51,7 @@ public class NastavnikController {
 			@RequestParam(required = false) String ime,
 			@RequestParam(required = false) String prezime){
 
-        return Converters.toNastavnikResponseList(nastavnikService.findByImeAndPrezime(ime, prezime));
+        return NastavnikMaper.toNastavnikResponseList(nastavnikService.findByImeAndPrezime(ime, prezime));
 	}
 	
 }

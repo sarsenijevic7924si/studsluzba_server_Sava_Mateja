@@ -48,6 +48,7 @@ public class PredmetService {
         if (request.getOpis() != null) predmet.setOpis(request.getOpis());
         if (request.getEspb() != null) predmet.setEspb(request.getEspb());
 
+        predmet.setObavezan(request.isObavezan());
         if (request.getStudProgramId() != null) {
             StudijskiProgram studProgram = studijskiProgramRepository.findById(request.getStudProgramId())
                     .orElseThrow(() -> new RuntimeException("Studijski program nije pronađen sa ID: " + request.getStudProgramId()));
