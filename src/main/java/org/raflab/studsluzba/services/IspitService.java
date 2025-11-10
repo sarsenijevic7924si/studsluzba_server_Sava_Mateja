@@ -13,6 +13,7 @@ import org.raflab.studsluzba.repositories.IspitniRokRepository;
 import org.raflab.studsluzba.repositories.NastavnikRepository;
 import org.raflab.studsluzba.repositories.PredmetRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +47,40 @@ public class IspitService {
                 .map(IspitMaper::toResponse)
                 .collect(Collectors.toList());
     }
+    public void deleteIspit(Long id) {
+        Ispit ispit = ispitRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ispit sa ID " + id + " nije pronađen."));
+        ispitRepository.delete(ispit);
+    }
+    @Transactional
+    public IspitResponse updateIspit(Long id, IspitRequest request) {
+        Ispit ispit = ispitRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ispit nije pronađen"));
 
+        ispit.setDatumOdrzavanja(request.getDatumOdrzavanja());
+        ispit.setVremePocetka(request.getVremePocetka());
+        ispit.setJeZakljucen(request.getJeZakljucen());
+
+        if (!ispit.getNastavnik().getId().equals(request.getNastavnikId())) {
+            Nastavnik nastavnik = nastavnikRepository.findById(request.getNastavnikId())
+                    .orElseThrow(() -> new RuntimeException("Nastavnik nije pronađen"));
+            ispit.setNastavnik(nastavnik);
+        }
+
+        if (!ispit.getPredmet().getId().equals(request.getPredmetId())) {
+            Predmet predmet = predmetRepository.findById(request.getPredmetId())
+                    .orElseThrow(() -> new RuntimeException("Predmet nije pronađen"));
+            ispit.setPredmet(predmet);
+        }
+
+        if (!ispit.getIspitniRok().getId().equals(request.getIspitniRokId())) {
+            IspitniRok rok = ispitniRokRepository.findById(request.getIspitniRokId())
+                    .orElseThrow(() -> new RuntimeException("Ispitni rok nije pronađen"));
+            ispit.setIspitniRok(rok);
+        }
+
+        Ispit updated = ispitRepository.save(ispit);
+        return IspitMaper.toResponse(updated);
+    }
 
 }

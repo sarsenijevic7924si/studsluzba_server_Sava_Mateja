@@ -11,7 +11,7 @@ import java.util.List;
 public class IspitniRok {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private LocalDate pocetakRoka;
     private LocalDate zavrsetakRoka;
     @OneToMany
