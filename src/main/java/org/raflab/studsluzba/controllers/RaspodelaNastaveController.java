@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/api/professor/raspodelanastave")
 public class RaspodelaNastaveController {
-	
+	//LOSE
 	@Autowired
 	DrziPredmetRepository drziPredmetRepo;
 	

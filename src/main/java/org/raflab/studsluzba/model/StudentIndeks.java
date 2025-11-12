@@ -25,4 +25,12 @@ public class StudentIndeks {
 	private StudijskiProgram studijskiProgram;   // na koji studijski program je upisan
 	private Integer ostvarenoEspb;
 
+	@Override
+	public String toString() {
+		return "StudentIndeks{" +
+				 broj +
+				"/" + godina +
+				"/" + studProgramOznaka + '\'' +
+				'}';
+	}
 }
