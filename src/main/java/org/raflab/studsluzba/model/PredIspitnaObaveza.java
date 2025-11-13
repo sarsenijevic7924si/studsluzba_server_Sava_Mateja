@@ -15,5 +15,5 @@ public class PredIspitnaObaveza {
     private Integer maksimalanBrojPoena;
 
     @ManyToOne
-    private DrziPredmet drziPredmet;
+    private Predmet predmet;
 }
