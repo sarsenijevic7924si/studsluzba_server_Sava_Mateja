@@ -24,9 +24,9 @@ public class Predmet {
 	@ManyToOne
 	private StudijskiProgram studProgram;
 	private boolean obavezan;
-	@JsonIgnore
-	@OneToMany(mappedBy = "predmet")
-	private List<Ispit> ispiti;
+	@ManyToMany(mappedBy = "predmeti")
+	private List<Grupa> grupe;
+
 
 	@Override
 	public int hashCode() {

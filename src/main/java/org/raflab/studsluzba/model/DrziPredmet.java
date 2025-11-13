@@ -21,4 +21,6 @@ public class DrziPredmet {
 	
 	@ManyToOne
 	private Predmet predmet;
+	@ManyToOne
+	private SkolskaGodina skolskaGodina;
 }

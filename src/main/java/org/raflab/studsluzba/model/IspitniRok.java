@@ -14,8 +14,10 @@ public class IspitniRok {
     private Long id;
     private LocalDate pocetakRoka;
     private LocalDate zavrsetakRoka;
-    @OneToMany
+    @OneToMany(mappedBy = "ispitniRok")
     private List<Ispit> ispiti;
+    @ManyToOne
+    private SkolskaGodina skolskaGodina;
 
 
 }

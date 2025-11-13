@@ -6,7 +6,9 @@ import org.raflab.studsluzba.controllers.request.StudijskiProgramReqest;
 import org.raflab.studsluzba.controllers.response.StudijskiProgramResponse;
 import org.raflab.studsluzba.maperi.StudijskiProgramMaper;
 import org.raflab.studsluzba.model.StudijskiProgram;
+import org.raflab.studsluzba.model.VrstaStudija;
 import org.raflab.studsluzba.repositories.StudijskiProgramRepository;
+import org.raflab.studsluzba.repositories.VrstaStudijaRespository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,16 +18,22 @@ import java.util.List;
 @AllArgsConstructor
 public class StudijskiProgramService {
     private final StudijskiProgramRepository studijskiProgramRepository;
+    private final VrstaStudijaRespository vrstaStudijaRespository;
 
     // 🟢 SAVE
     @Transactional
     public StudijskiProgramResponse saveStudijskiProgram(StudijskiProgramReqest request) {
-        StudijskiProgram sp = StudijskiProgramMaper.toEntity(request);
+
+        VrstaStudija vs = vrstaStudijaRespository.findById(request.getVrstaStudijaId())
+                .orElseThrow(() -> new RuntimeException("Vrsta studija sa datim ID ne postoji."));
+
+        StudijskiProgram sp = StudijskiProgramMaper.toEntity(request, vs);
         StudijskiProgram saved = studijskiProgramRepository.save(sp);
+
         return StudijskiProgramMaper.toResponse(saved);
     }
 
-    // 🟢 PATCH / UPDATE
+    // 🟢 UPDATE — koristi novi maper pristup i menja vrstu studija ako je poslata
     @Transactional
     public StudijskiProgramResponse updateStudijskiProgram(Long id, StudijskiProgramReqest request) {
         StudijskiProgram sp = studijskiProgramRepository.findById(id)
@@ -37,8 +45,14 @@ public class StudijskiProgramService {
         if (request.getZvanje() != null) sp.setZvanje(request.getZvanje());
         if (request.getTrajanjeGodina() != null) sp.setTrajanjeGodina(request.getTrajanjeGodina());
         if (request.getTrajanjeSemestara() != null) sp.setTrajanjeSemestara(request.getTrajanjeSemestara());
-        if (request.getVrstaStudija() != null) sp.setVrstaStudija(request.getVrstaStudija());
         if (request.getUkupnoEspb() != null) sp.setUkupnoEspb(request.getUkupnoEspb());
+
+        // Ako je poslata vrsta studija — ažuriraj
+        if (request.getVrstaStudijaId() != null) {
+            VrstaStudija vs = vrstaStudijaRespository.findById(request.getVrstaStudijaId())
+                    .orElseThrow(() -> new RuntimeException("Vrsta studija sa datim ID ne postoji."));
+            sp.setVrstaStudija(vs);
+        }
 
         StudijskiProgram updated = studijskiProgramRepository.save(sp);
         return StudijskiProgramMaper.toResponse(updated);
@@ -50,7 +64,6 @@ public class StudijskiProgramService {
         StudijskiProgram sp = studijskiProgramRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Studijski program sa ID " + id + " nije pronađen."));
 
-        // Ako postoje predmeti povezani sa ovim programom, bolje je logički brisati ili izbrisati veze
         if (!sp.getPredmeti().isEmpty()) {
             throw new RuntimeException("Studijski program ima predmete i ne može se obrisati.");
         }

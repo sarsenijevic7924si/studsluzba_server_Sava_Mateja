@@ -4,6 +4,7 @@ import org.raflab.studsluzba.controllers.request.PredIspitnaObavezaRequest;
 import org.raflab.studsluzba.controllers.response.PredIpsitnaObavezaResponse;
 import org.raflab.studsluzba.model.PredIspitnaObaveza;
 import org.raflab.studsluzba.model.Predmet;
+import org.raflab.studsluzba.model.SkolskaGodina;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,17 +22,24 @@ public class PredIspitnaObavezaMaper {
             response.setPredmetId(predmet.getId());
             response.setNazivPredmeta(predmet.getNaziv());
         }
+        SkolskaGodina sg=entity.getSkolskaGodina();
+        if(sg!=null)
+        {
+            response.setSkoslkaGodinaId(sg.getId());
+            response.setGodina(sg.getGodina());
+        }
 
         return response;
     }
 
-    public static PredIspitnaObaveza toEntity(PredIspitnaObavezaRequest request, Predmet predmet) {
+    public static PredIspitnaObaveza toEntity(PredIspitnaObavezaRequest request, Predmet predmet, SkolskaGodina sg) {
         if (request == null) return null;
 
         PredIspitnaObaveza entity = new PredIspitnaObaveza();
         entity.setVrsta(request.getVrsta());
         entity.setMaksimalanBrojPoena(request.getMaksimalanBrojPoena());
         entity.setPredmet(predmet);
+        entity.setSkolskaGodina(sg);
 
         return entity;
     }

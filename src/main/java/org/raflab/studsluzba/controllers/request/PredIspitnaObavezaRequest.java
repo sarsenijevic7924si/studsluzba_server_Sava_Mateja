@@ -13,4 +13,6 @@ public class PredIspitnaObavezaRequest {
     private Integer maksimalanBrojPoena;
     @NotNull
     private Long predmetId; // samo ID predmeta
+    @NotNull
+    private Long skolskaGodinaId;
 }

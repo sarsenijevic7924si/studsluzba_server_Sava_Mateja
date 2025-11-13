@@ -3,9 +3,10 @@ package org.raflab.studsluzba.maperi;
 import org.raflab.studsluzba.controllers.request.StudijskiProgramReqest;
 import org.raflab.studsluzba.controllers.response.StudijskiProgramResponse;
 import org.raflab.studsluzba.model.StudijskiProgram;
+import org.raflab.studsluzba.model.VrstaStudija;
 
 public class StudijskiProgramMaper {
-    public static StudijskiProgram toEntity(StudijskiProgramReqest sr)
+    public static StudijskiProgram toEntity(StudijskiProgramReqest sr, VrstaStudija vs)
     {
         StudijskiProgram sp=new StudijskiProgram();
         sp.setOznaka(sr.getOznaka());
@@ -14,7 +15,7 @@ public class StudijskiProgramMaper {
         sp.setZvanje(sr.getZvanje());
         sp.setTrajanjeGodina(sr.getTrajanjeGodina());
         sp.setTrajanjeSemestara(sr.getTrajanjeSemestara());
-        sp.setVrstaStudija(sr.getVrstaStudija());
+        sp.setVrstaStudija(vs);
         sp.setUkupnoEspb(sr.getUkupnoEspb());
         return sp;
     }
@@ -28,7 +29,10 @@ public class StudijskiProgramMaper {
         sr.setZvanje(sp.getZvanje());
         sr.setTrajanjeGodina(sp.getTrajanjeGodina());
         sr.setTrajanjeSemestara(sp.getTrajanjeSemestara());
-        sr.setVrstaStudija(sp.getVrstaStudija());
+        if (sp.getVrstaStudija() != null) {
+            sr.setVrstaStudijaId(sp.getVrstaStudija().getId());
+            sr.setVrstaStudija(sp.getVrstaStudija().getSkraceniNaziv());
+        }
         sr.setUkupnoEspb(sp.getUkupnoEspb());
         return sr;
     }

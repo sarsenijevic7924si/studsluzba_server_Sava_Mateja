@@ -5,8 +5,10 @@ import org.raflab.studsluzba.controllers.response.PredIpsitnaObavezaResponse;
 import org.raflab.studsluzba.maperi.PredIspitnaObavezaMaper;
 import org.raflab.studsluzba.model.PredIspitnaObaveza;
 import org.raflab.studsluzba.model.Predmet;
+import org.raflab.studsluzba.model.SkolskaGodina;
 import org.raflab.studsluzba.repositories.PredIspitnaObavezaRepository;
 import org.raflab.studsluzba.repositories.PredmetRepository;
+import org.raflab.studsluzba.repositories.SkolskaGodinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +23,17 @@ public class PredIspitnaObavezaService {
 
     @Autowired
     private PredmetRepository predmetRepository;
+    @Autowired
+    private  SkolskaGodinaRepository skolskaGodinaRepository;
 
 
     public PredIpsitnaObavezaResponse create(PredIspitnaObavezaRequest request) {
         Predmet predmet = predmetRepository.findById(request.getPredmetId())
                 .orElseThrow(() -> new RuntimeException("Predmet nije pronađen"));
+        SkolskaGodina sg= skolskaGodinaRepository.findById(request.getSkolskaGodinaId())
+                .orElseThrow(() -> new RuntimeException("Skolska godina  nije pronađena"));
 
-        PredIspitnaObaveza entity = PredIspitnaObavezaMaper.toEntity(request, predmet);
+        PredIspitnaObaveza entity = PredIspitnaObavezaMaper.toEntity(request, predmet,sg);
         PredIspitnaObaveza saved = predIspitnaObavezaRepository.save(entity);
 
         return PredIspitnaObavezaMaper.toResponse(saved);

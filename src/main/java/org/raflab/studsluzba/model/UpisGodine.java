@@ -16,6 +16,9 @@ public class UpisGodine {
     @ManyToOne
     private StudentIndeks studentIndeks;
 
+    @ManyToOne
+    private SkolskaGodina skolskaGodina;
+
     private Integer godinaKojaSeUpisuje;
     private LocalDate datumUpisa;
     private String napomena;

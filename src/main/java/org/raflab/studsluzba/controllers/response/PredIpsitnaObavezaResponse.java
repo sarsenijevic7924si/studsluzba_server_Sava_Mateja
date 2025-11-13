@@ -13,4 +13,6 @@ public class PredIpsitnaObavezaResponse {
     private Integer maksimalanBrojPoena;
     private Long predmetId;
     private String nazivPredmeta;
+    private Long skoslkaGodinaId;
+    private Integer godina;
 }

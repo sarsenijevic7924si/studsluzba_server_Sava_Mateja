@@ -42,7 +42,7 @@ public class Seeder implements CommandLineRunner {
             sp.setZvanje("Zvanje " + i);
             sp.setTrajanjeGodina(4);
             sp.setTrajanjeSemestara(8);
-            sp.setVrstaStudija("OAS");
+            sp.setVrstaStudija(null);
             sp.setUkupnoEspb(240);
             spList.add(studijskiProgramRepository.save(sp));
         }

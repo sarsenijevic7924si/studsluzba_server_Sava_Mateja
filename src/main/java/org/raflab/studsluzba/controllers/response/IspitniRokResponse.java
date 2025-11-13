@@ -10,4 +10,7 @@ public class IspitniRokResponse {
     private Long id;
     private LocalDate pocetakRoka;
     private LocalDate zavrsetakRoka;
+
+    private Long skolskaGodinaId;
+    private Integer godina;
 }

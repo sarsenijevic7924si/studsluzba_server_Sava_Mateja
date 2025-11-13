@@ -20,7 +20,7 @@ public class StudijskiProgramReqest {
     @NotNull
     private Integer trajanjeSemestara;
     @NotEmpty
-    private String vrstaStudija;
+    private Long vrstaStudijaId;
     @NotNull
     private Integer ukupnoEspb;
 }

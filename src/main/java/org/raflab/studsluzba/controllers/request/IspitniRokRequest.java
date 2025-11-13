@@ -10,4 +10,5 @@ import java.util.List;
 public class IspitniRokRequest {
     private LocalDate pocetakRoka;
     private LocalDate zavrsetakRoka;
+    private Long skolskaGodinaId;
 }

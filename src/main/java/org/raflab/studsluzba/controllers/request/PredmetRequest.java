@@ -16,6 +16,7 @@ public class PredmetRequest {
     private Integer espb;
     @NotNull
     private Long studProgramId;
+
     @NotNull
     private boolean obavezan;
 }

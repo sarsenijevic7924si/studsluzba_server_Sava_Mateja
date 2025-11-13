@@ -9,8 +9,10 @@ import org.raflab.studsluzba.maperi.IspitniRokMaper;
 import org.raflab.studsluzba.maperi.SrednjaSkolaMaper;
 import org.raflab.studsluzba.model.IspitniRok;
 import org.raflab.studsluzba.model.Predmet;
+import org.raflab.studsluzba.model.SkolskaGodina;
 import org.raflab.studsluzba.model.SrednjaSkola;
 import org.raflab.studsluzba.repositories.IspitniRokRepository;
+import org.raflab.studsluzba.repositories.SkolskaGodinaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,9 +22,16 @@ import java.util.stream.Collectors;
 @Service
 public class IspitniRokService {
     final IspitniRokRepository ispitniRokRepository;
+    private final SkolskaGodinaRepository skolskaGodinaRepository;
     public IspitniRokResponse saveIspitniRok(IspitniRokRequest request) {
-        IspitniRok ispitniRok = IspitniRokMaper.toIspitniRok(request);
+        SkolskaGodina sg = skolskaGodinaRepository.findById(request.getSkolskaGodinaId())
+                .orElseThrow(() -> new RuntimeException("Školska godina nije pronađena."));
+
+        // Kreiramo entitet preko mapera
+        IspitniRok ispitniRok = IspitniRokMaper.toIspitniRok(request, sg);
+
         IspitniRok saved = ispitniRokRepository.save(ispitniRok);
+
         return IspitniRokMaper.toResponse(saved);
     }
     public List<IspitniRokResponse> findAll() {

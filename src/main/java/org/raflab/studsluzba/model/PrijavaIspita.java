@@ -14,4 +14,9 @@ public class PrijavaIspita {
     private LocalDate datumPrijave;
     @ManyToOne
     private Ispit ispit;
+    @ManyToOne
+    private StudentIndeks studentIndeks;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private IzlazakNaIspit izlazakNaIspit;
 }
