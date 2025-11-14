@@ -21,10 +21,12 @@ public class Predmet {
 	private String naziv;
 	private String opis;
 	private Integer espb;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonIgnore
 	private StudijskiProgram studProgram;
 	private boolean obavezan;
-	@ManyToMany(mappedBy = "predmeti")
+	@JsonIgnore
+	@ManyToMany(mappedBy = "predmeti",fetch = FetchType.EAGER)
 	private List<Grupa> grupe;
 
 
