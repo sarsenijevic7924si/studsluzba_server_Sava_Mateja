@@ -2,7 +2,9 @@ package org.raflab.studsluzba.services;
 
 import lombok.AllArgsConstructor;
 import org.raflab.studsluzba.controllers.request.StudentIndeksRequest;
+import org.raflab.studsluzba.controllers.response.StudentPodaciResponse;
 import org.raflab.studsluzba.maperi.StudentIndeksMaper;
+import org.raflab.studsluzba.maperi.StudentPodaciMaper;
 import org.raflab.studsluzba.model.StudentIndeks;
 import org.raflab.studsluzba.model.StudentPodaci;
 import org.raflab.studsluzba.model.StudijskiProgram;
@@ -25,7 +27,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Service
 public class StudentIndeksService {
-    
+
     final StudentIndeksRepository studentIndeksRepository;
     private final StudentPodaciRepository studentPodaciRepository;
     private final StudijskiProgramRepository studijskiProgramRepository;
@@ -34,12 +36,11 @@ public class StudentIndeksService {
     @Transactional(readOnly = true)
     public int findBroj(int godina, String studProgramOznaka) {
         List<Integer> brojeviList = studentIndeksRepository.findBrojeviByGodinaAndStudProgramOznaka(godina, studProgramOznaka);
-        if(brojeviList == null || brojeviList.isEmpty()) return 1;
+        if (brojeviList == null || brojeviList.isEmpty()) return 1;
 
         int expected = 1;
-        for(int num : brojeviList.stream().distinct().sorted().collect(Collectors.toList()) )
-        {
-            if(num != expected) return expected;
+        for (int num : brojeviList.stream().distinct().sorted().collect(Collectors.toList())) {
+            if (num != expected) return expected;
             expected++;
         }
         return expected;
@@ -66,6 +67,7 @@ public class StudentIndeksService {
     public StudentIndeks findByStudentIdAndAktivan(Long studentPodaciId) {
         return studentIndeksRepository.findAktivanStudentIndeksiByStudentPodaciId(studentPodaciId);
     }
+
     public StudentIndeks findById(Long id) {
         Optional<StudentIndeks> si = studentIndeksRepository.findById(id);
         return si.orElse(null);
@@ -176,5 +178,15 @@ public class StudentIndeksService {
     @Transactional(readOnly = true)
     public List<StudentIndeks> findAllIndeksi() {
         return studentIndeksRepository.findAll();
+    }
+
+    public StudentPodaciResponse findStudentPodaciByIndeks(int broj, int godina, String oznaka) {
+        StudentIndeks indeks = studentIndeksRepository
+                .findByBrojAndGodinaAndStudProgramOznakaAndAktivan(broj, godina, oznaka, true)
+                .orElseThrow(() ->
+                        new RuntimeException("Indeks nije pronađen.")
+                );
+
+        return StudentPodaciMaper.toResponse(indeks.getStudent());
     }
 }

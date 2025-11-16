@@ -92,6 +92,14 @@ public class StudentController {
 	public void deleteStudentIndeks(@PathVariable Long id) {
 		studentIndeksService.deleteIndeks(id);
 	}
+	@GetMapping("/indeks/podaci")
+	public StudentPodaciResponse findByIndeks(
+			@RequestParam int broj,
+			@RequestParam int godina,
+			@RequestParam String oznaka
+	) {
+		return studentIndeksService.findStudentPodaciByIndeks(broj, godina, oznaka);
+	}
 
 
 }
