@@ -3,6 +3,7 @@ package org.raflab.studsluzba.repositories;
 import java.util.List;
 import java.util.Optional;
 
+import org.raflab.studsluzba.model.PolozeniPredmeti;
 import org.raflab.studsluzba.model.StudentIndeks;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,6 +41,7 @@ public interface StudentIndeksRepository extends JpaRepository<StudentIndeks, Lo
 
 	@Query("SELECT s.broj FROM StudentIndeks s WHERE s.godina = :godina AND s.studProgramOznaka = :studProgramOznaka AND s.aktivan = true ORDER BY s.broj ASC")
 	List<Integer> findBrojeviByGodinaAndStudProgramOznaka(@Param("godina") int godina, @Param("studProgramOznaka") String studProgramOznaka);
+
 
 
 }

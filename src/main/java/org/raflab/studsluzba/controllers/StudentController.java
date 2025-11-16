@@ -97,7 +97,8 @@ public class StudentController {
 			@RequestParam int broj,
 			@RequestParam int godina,
 			@RequestParam String oznaka
-	) {
+	)
+	{
 		return studentIndeksService.findStudentPodaciByIndeks(broj, godina, oznaka);
 	}
 

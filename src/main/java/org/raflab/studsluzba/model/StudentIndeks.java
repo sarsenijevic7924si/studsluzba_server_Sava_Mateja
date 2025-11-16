@@ -29,6 +29,9 @@ public class StudentIndeks {
 
 	@OneToMany(mappedBy="studentIndeks")
 	private List<PrijavaIspita> prijaveIspita;
+
+	@OneToMany(mappedBy="studentIndeks")
+	private List<PolozeniPredmeti> polozeniPredmeti;
 	private Integer ostvarenoEspb;
 
 	@Override

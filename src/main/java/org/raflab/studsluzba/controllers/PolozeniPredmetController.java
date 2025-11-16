@@ -5,6 +5,7 @@ import org.raflab.studsluzba.controllers.request.PolozeniPredmetRequest;
 import org.raflab.studsluzba.controllers.request.PredmetRequest;
 import org.raflab.studsluzba.controllers.response.PolozenPredmetResponse;
 import org.raflab.studsluzba.controllers.response.PredmetResponse;
+import org.raflab.studsluzba.controllers.response.StudentPodaciResponse;
 import org.raflab.studsluzba.model.PolozeniPredmeti;
 import org.raflab.studsluzba.model.Predmet;
 import org.raflab.studsluzba.services.PolozeniPredmetService;
@@ -36,4 +37,17 @@ public class PolozeniPredmetController {
     public PolozenPredmetResponse patchPredmet(@PathVariable Long id, @RequestBody PolozeniPredmetRequest request) {
         return predmetService.updatePolozeniPredmet(id, request);
     }
+    @GetMapping("/student_id/idndeks/")
+    public List<PolozenPredmetResponse> getPolozeniByIndeks(@PathVariable Long indeksId) {
+        return predmetService.findPolozeniByIndeks(indeksId);
+    }
+    @GetMapping("/StudenskiIndeks")
+    public List<PolozenPredmetResponse> getPolozeniByStudentIndeks(
+            @RequestParam int broj,
+            @RequestParam int godina,
+            @RequestParam String oznaka
+    ) {
+        return predmetService.findPolozeniByStudentIndeks(broj, godina, oznaka);
+    }
+    //findPolozeniByStudentIndeks
 }

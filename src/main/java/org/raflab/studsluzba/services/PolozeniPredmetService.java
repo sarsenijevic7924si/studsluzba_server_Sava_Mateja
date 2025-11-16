@@ -5,8 +5,10 @@ import org.raflab.studsluzba.controllers.request.PolozeniPredmetRequest;
 import org.raflab.studsluzba.controllers.request.SrednjaSkolaRequest;
 import org.raflab.studsluzba.controllers.response.PolozenPredmetResponse;
 import org.raflab.studsluzba.controllers.response.SrednjaSkolaResponse;
+import org.raflab.studsluzba.controllers.response.StudentPodaciResponse;
 import org.raflab.studsluzba.maperi.PolozeniPredmetMaper;
 import org.raflab.studsluzba.maperi.SrednjaSkolaMaper;
+import org.raflab.studsluzba.maperi.StudentPodaciMaper;
 import org.raflab.studsluzba.model.PolozeniPredmeti;
 import org.raflab.studsluzba.model.Predmet;
 import org.raflab.studsluzba.model.SrednjaSkola;
@@ -17,6 +19,8 @@ import org.raflab.studsluzba.repositories.StudentIndeksRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +56,20 @@ public class PolozeniPredmetService {
     public Iterable<PolozeniPredmeti> findAll(){
         return polozeniRepo.findAll();
     }
+    public List<PolozenPredmetResponse> findPolozeniByIndeks(Long studentIndeksId) {
+        return polozeniRepo.findByStudentIndeksId(studentIndeksId)
+                .stream()
+                .map(PolozeniPredmetMaper::toResponse)
+                .collect(Collectors.toList());
+    }
+    public List<PolozenPredmetResponse> findPolozeniByStudentIndeks(int broj, int godina, String oznaka) {
+        return polozeniRepo.findByStudentIndeks(broj, godina, oznaka)
+                .stream()
+                .map(PolozeniPredmetMaper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    //UPDATE
 
     @Transactional
     public PolozenPredmetResponse updatePolozeniPredmet(Long id, PolozeniPredmetRequest request) {

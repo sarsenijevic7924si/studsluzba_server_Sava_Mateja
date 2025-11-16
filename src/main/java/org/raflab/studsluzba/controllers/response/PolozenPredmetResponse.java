@@ -1,11 +1,15 @@
 package org.raflab.studsluzba.controllers.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.raflab.studsluzba.model.NacinOcene;
 
 import java.time.LocalDate;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PolozenPredmetResponse {
     private Long id;
 
