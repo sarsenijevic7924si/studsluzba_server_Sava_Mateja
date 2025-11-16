@@ -20,7 +20,6 @@ public class DrziPredmetController {
     public void saveDrziPredmet(@RequestBody DrziPredmetRequest request) {
         drziPredmetService.saveDrziPredmet(request);
     }
-    //@GetMapping(path = "/all")
-    //public List<DrziPredmetDTO> getAllDrziPredmet()
+
 
 }
