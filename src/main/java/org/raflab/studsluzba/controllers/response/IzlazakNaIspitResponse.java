@@ -11,4 +11,5 @@ public class IzlazakNaIspitResponse {
     private String napomena;
     private Integer ocena;
     private Long prijavaIspitaID;
+    private Long stundetId;
 }

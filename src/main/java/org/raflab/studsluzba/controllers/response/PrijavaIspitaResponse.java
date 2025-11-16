@@ -10,4 +10,5 @@ public class PrijavaIspitaResponse {
     private Long Id;
     private LocalDate datumPrijave;
     private Long ispitID;
+    private Long studentId;
 }
