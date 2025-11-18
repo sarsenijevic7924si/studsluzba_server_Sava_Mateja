@@ -9,12 +9,10 @@ import org.raflab.studsluzba.controllers.response.StudentPodaciResponse;
 import org.raflab.studsluzba.maperi.PolozeniPredmetMaper;
 import org.raflab.studsluzba.maperi.SrednjaSkolaMaper;
 import org.raflab.studsluzba.maperi.StudentPodaciMaper;
-import org.raflab.studsluzba.model.PolozeniPredmeti;
-import org.raflab.studsluzba.model.Predmet;
-import org.raflab.studsluzba.model.SrednjaSkola;
-import org.raflab.studsluzba.model.StudentIndeks;
+import org.raflab.studsluzba.model.*;
 import org.raflab.studsluzba.repositories.PolozeniPremetRepository;
 import org.raflab.studsluzba.repositories.PredmetRepository;
+import org.raflab.studsluzba.repositories.SlusaPredmetRepository;
 import org.raflab.studsluzba.repositories.StudentIndeksRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +26,7 @@ public class PolozeniPredmetService {
     public final PolozeniPremetRepository polozeniRepo;
     private final StudentIndeksRepository indeksRepo;
     private final PredmetRepository predmetRepo;
+    private final SlusaPredmetRepository slusaPredmetRepository;
 
     public PolozenPredmetResponse dodajPolozeniIspit(PolozeniPredmetRequest request) {
 
@@ -50,6 +49,8 @@ public class PolozeniPredmetService {
         PolozeniPredmeti p = PolozeniPredmetMaper.toEntity(request, indeks, predmet);
 
         polozeniRepo.save(p);
+        SlusaPredmet sp=slusaPredmetRepository.getSlusaPredmetByPredmetandIndeks(indeks.getId(),predmet.getId());
+        slusaPredmetRepository.delete(sp);
 
         return PolozeniPredmetMaper.toResponse(p);
     }

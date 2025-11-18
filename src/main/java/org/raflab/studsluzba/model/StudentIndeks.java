@@ -13,8 +13,8 @@ public class StudentIndeks {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	private int broj;
-	private int godina;
+	private Integer broj;
+	private Integer godina;
 	private String studProgramOznaka;
 	private String nacinFinansiranja;
 	private boolean aktivan; 

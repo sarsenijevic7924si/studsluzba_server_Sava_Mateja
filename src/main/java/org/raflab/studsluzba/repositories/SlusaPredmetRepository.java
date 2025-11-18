@@ -30,6 +30,8 @@ public interface SlusaPredmetRepository extends CrudRepository<SlusaPredmet, Lon
 	@Query("select si from StudentIndeks si where not exists "
 			+ "(select sp from SlusaPredmet sp where sp.studentIndeks=si and sp.drziPredmet.id = :idDrziPredmet) ")
 	List<StudentIndeks> getStudentiNeSlusajuDrziPredmet(Long idDrziPredmet);
+	@Query("select sp from SlusaPredmet  sp where sp.studentIndeks.id=:indeks and sp.drziPredmet.predmet.id=:predmet")
+	SlusaPredmet getSlusaPredmetByPredmetandIndeks(Long indeks,Long predmet);
 	
 
 }
