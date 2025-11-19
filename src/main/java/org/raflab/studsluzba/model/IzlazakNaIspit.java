@@ -15,7 +15,7 @@ public class IzlazakNaIspit {
     private Integer ukupniPoeni; // predispitni + ispit
     private Boolean ponistio;
     private String napomena;
-    private Integer ocena; // 6-10
+ //   private Integer ocena; // 6-10
 
     @ManyToOne
     private PrijavaIspita prijava;

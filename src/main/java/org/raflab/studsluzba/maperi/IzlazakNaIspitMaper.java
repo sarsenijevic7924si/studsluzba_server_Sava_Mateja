@@ -8,7 +8,6 @@ import org.raflab.studsluzba.model.PrijavaIspita;
 public class IzlazakNaIspitMaper {
     public static IzlazakNaIspit toIzlazakNaIspit(IzlazakNaIspitRequest request, PrijavaIspita prijavaIspita) {
         IzlazakNaIspit izlazak=new IzlazakNaIspit();
-        izlazak.setOcena(request.getOcena());
         izlazak.setNapomena(request.getNapomena());
         izlazak.setPonistio(request.getPonistio());
         izlazak.setPoeniSaIspita(request.getPoeniSaIspita());
@@ -18,7 +17,6 @@ public class IzlazakNaIspitMaper {
     }
     public static IzlazakNaIspitResponse toIzlazakNaIspitResponse(IzlazakNaIspit izlazakNaIspit) {
         IzlazakNaIspitResponse response=new IzlazakNaIspitResponse();
-        response.setOcena(izlazakNaIspit.getOcena());
         response.setId(izlazakNaIspit.getId());
         response.setNapomena(izlazakNaIspit.getNapomena());
         response.setPonistio(izlazakNaIspit.getPonistio());

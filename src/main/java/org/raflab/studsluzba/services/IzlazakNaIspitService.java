@@ -43,7 +43,6 @@ public class IzlazakNaIspitService {
         izlazak.setUkupniPoeni(request.getUkupniPoeni());
         izlazak.setPonistio(request.getPonistio());
         izlazak.setNapomena(request.getNapomena());
-        izlazak.setOcena(request.getOcena());
 
         if (izlazak.getPrijava() == null ||
                 !izlazak.getPrijava().getId().equals(request.getPrijavaIspitaID())) {
