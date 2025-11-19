@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.raflab.studsluzba.controllers.request.PolozeniPredmetRequest;
 import org.raflab.studsluzba.controllers.request.SrednjaSkolaRequest;
 import org.raflab.studsluzba.controllers.response.PolozenPredmetResponse;
+import org.raflab.studsluzba.controllers.response.PredmetResponse;
 import org.raflab.studsluzba.controllers.response.SrednjaSkolaResponse;
 import org.raflab.studsluzba.controllers.response.StudentPodaciResponse;
 import org.raflab.studsluzba.maperi.PolozeniPredmetMaper;
@@ -69,6 +70,7 @@ public class PolozeniPredmetService {
                 .map(PolozeniPredmetMaper::toResponse)
                 .collect(Collectors.toList());
     }
+
 
     //UPDATE
 

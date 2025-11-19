@@ -3,15 +3,19 @@ package org.raflab.studsluzba.services;
 import lombok.AllArgsConstructor;
 import org.raflab.studsluzba.controllers.request.PredmetRequest;
 import org.raflab.studsluzba.controllers.response.PredmetResponse;
+import org.raflab.studsluzba.maperi.PolozeniPredmetMaper;
 import org.raflab.studsluzba.maperi.PredmetMaper;
 import org.raflab.studsluzba.model.Predmet;
+import org.raflab.studsluzba.model.SlusaPredmet;
 import org.raflab.studsluzba.model.StudijskiProgram;
 import org.raflab.studsluzba.repositories.PredmetRepository;
+import org.raflab.studsluzba.repositories.SlusaPredmetRepository;
 import org.raflab.studsluzba.repositories.StudijskiProgramRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -19,6 +23,7 @@ public class PredmetService {
 
     final PredmetRepository predmetRepository;
     private final StudijskiProgramRepository studijskiProgramRepository;
+    private final SlusaPredmetRepository slusaPredmetRepository;
 
     @Transactional
     public PredmetResponse savePredmet(PredmetRequest request) {
@@ -65,6 +70,15 @@ public class PredmetService {
 
     public List<Predmet> getPredmetForGodinaAkreditacije(Integer godinaAkreditacije){
         return predmetRepository.getPredmetForGodinaAkreditacije(godinaAkreditacije);
+    }
+    public List<PredmetResponse> getNePolozeniPredmeti(int broj, int godina, String oznaka)
+    {
+        SlusaPredmet sp= slusaPredmetRepository.getSlusaPredmetForIndeksCeoAktivnaGodina(broj,godina,oznaka);
+
+        return slusaPredmetRepository.getSlusaPredmetByPredmet(sp.getId())
+                .stream()
+                .map(PredmetMaper::toResponse)
+                .collect(Collectors.toList());
     }
 
 }

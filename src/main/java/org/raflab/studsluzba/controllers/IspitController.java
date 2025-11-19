@@ -30,6 +30,7 @@ import java.util.List;
 public class IspitController {
     final IspitService ispitService;
     public final PrijavaIspitaService prijavaIspitaService;
+
     @GetMapping("/all")
     public List<IspitResponse> getAllIspiti() {
         return ispitService.findAll();
@@ -46,26 +47,5 @@ public class IspitController {
     public IspitResponse patchPredmet(@PathVariable Long id, @RequestBody IspitRequest request) {
         return ispitService.updateIspit(id, request);
     }
-    @GetMapping("/nepolozeni")
-    public Page<IspitResponse> getNepolozeniIspitiByIndeks(
-            @RequestParam int broj,
-            @RequestParam int godina,
-            @RequestParam String oznaka,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        Pageable pageable = PageRequest.of(page, size);
-        return prijavaIspitaService.findNepolozeniIspitiByIndeks(broj, godina, oznaka, pageable);
-    }
-    @GetMapping("/polozeni")
-    public Page<IspitResponse> getPolozeniByIndeks(
-            @RequestParam int broj,
-            @RequestParam int godina,
-            @RequestParam String oznaka,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        Pageable pageable = PageRequest.of(page, size);
-        return prijavaIspitaService.findPolozeniIspitiByIndeks(broj, godina, oznaka, pageable);
-    }
+
 }

@@ -74,22 +74,7 @@ public class PrijavaIspitaService {
         prijavaIspitaRepository.deleteById(id);
     }
     //Trazenje ne polozenih
-    public Page<PrijavaIspitaResponse> findNepolozeniByIndeks(int broj, int godina, String oznaka, Pageable pageable) {
-        return prijavaIspitaRepository.findNepolozeniPoIndeksu(broj, godina, oznaka, pageable)
-                .map(PrijavaIspitaMaper::toPrijavaIspitaResponse);
-    }
-    //Trazenje polozenih
-    public Page<PrijavaIspitaResponse> findPolozeniByIndeks(int broj, int godina, String oznaka, Pageable pageable) {
-        return prijavaIspitaRepository.findPolozeniPoIndeksu(broj, godina, oznaka, pageable)
-                .map(PrijavaIspitaMaper::toPrijavaIspitaResponse);
-    }
+
     //NePolozenih IspitREsponse
-    public Page<IspitResponse> findNepolozeniIspitiByIndeks(int broj, int godina, String oznaka, Pageable pageable) {
-        return prijavaIspitaRepository.findNepolozeniPoIndeksu(broj, godina, oznaka, pageable)
-                .map(pi -> IspitMaper.toResponse(pi.getIspit()));
-    }
-    public Page<IspitResponse> findPolozeniIspitiByIndeks(int broj, int godina, String oznaka, Pageable pageable) {
-        return prijavaIspitaRepository.findPolozeniPoIndeksu(broj, godina, oznaka, pageable)
-                .map(pi -> IspitMaper.toResponse(pi.getIspit()));
-    }
+
 }

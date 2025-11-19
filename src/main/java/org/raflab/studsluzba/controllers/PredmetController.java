@@ -8,6 +8,7 @@ import org.raflab.studsluzba.controllers.response.PredmetResponse;
 import org.raflab.studsluzba.model.Predmet;
 import org.raflab.studsluzba.repositories.PredmetRepository;
 import org.raflab.studsluzba.services.PredmetService;
+import org.raflab.studsluzba.services.SlusaPredmetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class PredmetController {
 	
 	final PredmetService predmetService;
+	private final SlusaPredmetService slusaPredmetService;
 	
 	@GetMapping(path = "/all")
 	public Iterable<Predmet> getPredmeti(){
@@ -39,6 +41,13 @@ public class PredmetController {
 	@PatchMapping(path = "/update/{id}")
 	public PredmetResponse patchPredmet(@PathVariable Long id, @RequestBody PredmetRequest request) {
 		return predmetService.updatePredmet(id, request);
+	}
+	@GetMapping(path = "/ne-polozeni/")
+	public List<PredmetResponse> getNePolozeniPredmeti(
+			@RequestParam int broj,
+			@RequestParam int godina,
+			@RequestParam String oznaka){
+		return predmetService.getNePolozeniPredmeti(broj,godina,oznaka);
 	}
 
 }

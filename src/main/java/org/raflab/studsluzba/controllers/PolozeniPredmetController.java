@@ -16,7 +16,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "/api/polozen-predmet")
+@RequestMapping(path = "/api/predmet/polozeni")
 public class PolozeniPredmetController {
     final PolozeniPredmetService predmetService;
 

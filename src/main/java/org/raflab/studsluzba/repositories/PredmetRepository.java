@@ -19,4 +19,5 @@ public interface PredmetRepository extends JpaRepository<Predmet, Long> {
 
 	List<Predmet> findByIdIn(List<Long> ids);
 	List<Predmet> findByNazivIn(List<String> nazivi);
+
 }
