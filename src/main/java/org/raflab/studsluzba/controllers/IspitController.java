@@ -5,10 +5,7 @@ import org.raflab.studsluzba.controllers.request.IspitRequest;
 import org.raflab.studsluzba.controllers.request.IspitniRokRequest;
 import org.raflab.studsluzba.controllers.request.NastavnikRequest;
 import org.raflab.studsluzba.controllers.request.PredmetRequest;
-import org.raflab.studsluzba.controllers.response.IspitResponse;
-import org.raflab.studsluzba.controllers.response.IspitniRokResponse;
-import org.raflab.studsluzba.controllers.response.PredmetResponse;
-import org.raflab.studsluzba.controllers.response.PrijavaIspitaResponse;
+import org.raflab.studsluzba.controllers.response.*;
 import org.raflab.studsluzba.maperi.IspitMaper;
 import org.raflab.studsluzba.maperi.NastavnikMaper;
 import org.raflab.studsluzba.model.Ispit;
@@ -46,6 +43,14 @@ public class IspitController {
     @PatchMapping(path = "/update/{id}")
     public IspitResponse patchPredmet(@PathVariable Long id, @RequestBody IspitRequest request) {
         return ispitService.updateIspit(id, request);
+    }
+    @GetMapping("/{ispitId}/prijavljeni")
+    public List<StudentIndeksResponse> getPrijavljeni(@PathVariable Long ispitId) {
+        return ispitService.getPrijavljeniStudenti(ispitId);
+    }
+    @GetMapping("/prosek/{ispitId}")
+    public Double getAvg(@PathVariable Long ispitId) {
+        return ispitService.avg(ispitId);
     }
 
 }

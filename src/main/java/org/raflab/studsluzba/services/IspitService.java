@@ -4,14 +4,13 @@ import lombok.AllArgsConstructor;
 import org.raflab.studsluzba.controllers.request.IspitRequest;
 import org.raflab.studsluzba.controllers.response.IspitResponse;
 import org.raflab.studsluzba.controllers.response.SrednjaSkolaResponse;
+import org.raflab.studsluzba.controllers.response.StudentIndeksResponse;
 import org.raflab.studsluzba.maperi.IspitMaper;
 import org.raflab.studsluzba.maperi.NastavnikMaper;
 import org.raflab.studsluzba.maperi.SrednjaSkolaMaper;
+import org.raflab.studsluzba.maperi.StudentIndeksMaper;
 import org.raflab.studsluzba.model.*;
-import org.raflab.studsluzba.repositories.IspitRepository;
-import org.raflab.studsluzba.repositories.IspitniRokRepository;
-import org.raflab.studsluzba.repositories.NastavnikRepository;
-import org.raflab.studsluzba.repositories.PredmetRepository;
+import org.raflab.studsluzba.repositories.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -82,5 +81,25 @@ public class IspitService {
         Ispit updated = ispitRepository.save(ispit);
         return IspitMaper.toResponse(updated);
     }
+    private final PrijavaIspitaRepository prijavaRepo;
 
+    public List<StudentIndeksResponse> getPrijavljeniStudenti(Long PrijavaispitId) {
+        return prijavaRepo.findByPrijavaIspita(PrijavaispitId)   // metoda u repository koja vraća List<PrijavaIspita>
+                .stream()
+                .map(StudentIndeksMaper::toResponse)
+                .collect(Collectors.toList());  // kompatibilno sa Java 8+
+    }
+    public Double avg(Long IspitId) {
+        List<Integer>ocene=ispitRepository.findOceneByIspitId(IspitId);
+        double avg=0;
+        double sum=0;
+        double count=0;
+        for (int i:ocene) {
+            sum+=i;
+            count++;
+
+        }
+        avg=sum/count;
+        return avg;
+    }
 }

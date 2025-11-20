@@ -18,6 +18,8 @@ public interface IspitRepository extends JpaRepository<Ispit, Long> {
     List<Ispit> findAllByNastavnikZakljucan(Long idNastavnik);
 
 
+    @Query("select pp.ocena from Ispit i join PrijavaIspita pi on pi.ispit.id=i.id join PolozeniPredmeti pp on pp.studentIndeks=pi.studentIndeks")
+    List<Integer> findOceneByIspitId(Long id);
 
 
 }
