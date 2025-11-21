@@ -1,6 +1,7 @@
 package org.raflab.studsluzba.services;
 
 import lombok.AllArgsConstructor;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.raflab.studsluzba.controllers.request.PredmetRequest;
 import org.raflab.studsluzba.controllers.response.PredmetResponse;
 import org.raflab.studsluzba.maperi.PolozeniPredmetMaper;
@@ -32,6 +33,12 @@ public class PredmetService {
     public PredmetResponse savePredmet(PredmetRequest request) {
         StudijskiProgram studProgram = studijskiProgramRepository.findById(request.getStudProgramId())
                 .orElseThrow(() -> new RuntimeException("Studijski program nije pronađen sa ID: " + request.getStudProgramId()));
+        boolean postoji = predmetRepository.findAll().stream()
+                .anyMatch(p -> p.getSifra().equals(request.getSifra()));
+
+        if (postoji) {
+            throw new RuntimeException("Predmet sa šifrom " + request.getSifra() + " već postoji!");
+        }
 
         Predmet predmet = PredmetMaper.toEntity(request, studProgram);
 
