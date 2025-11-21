@@ -1,7 +1,9 @@
 package org.raflab.studsluzba.repositories;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.raflab.studsluzba.model.PolozeniPredmeti;
 import org.raflab.studsluzba.model.Predmet;
 import org.raflab.studsluzba.model.StudijskiProgram;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,5 +23,7 @@ public interface PredmetRepository extends JpaRepository<Predmet, Long> {
 	List<Predmet> findByNazivIn(List<String> nazivi);
 	@Query("select p from Predmet p where p.studProgram.oznaka=:studProgramOznaka")
 	List<Predmet> getPredmetiZasStudenskiProgram(String studProgramOznaka);
+
+
 
 }

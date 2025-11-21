@@ -18,6 +18,7 @@ import org.raflab.studsluzba.repositories.StudentIndeksRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -119,5 +120,16 @@ public class PolozeniPredmetService {
                 ));
 
         polozeniRepo.delete(entity);
+    }
+    //
+    public Double proskeOcenaZaPeriod(LocalDate prvi,LocalDate drugi)
+    {
+        List<PolozeniPredmeti>polozeniPredmetis=polozeniRepo.getProsecnaOcenaZaGodine(prvi,drugi);
+        double sum=0;
+        for (PolozeniPredmeti pp:polozeniPredmetis)
+        {
+            sum+=pp.getOcena();
+        }
+        return sum;
     }
 }

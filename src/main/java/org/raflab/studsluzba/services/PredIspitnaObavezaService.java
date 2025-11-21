@@ -1,11 +1,16 @@
 package org.raflab.studsluzba.services;
 
 import org.raflab.studsluzba.controllers.request.PredIspitnaObavezaRequest;
+import org.raflab.studsluzba.controllers.request.StudentPredispitniRequest;
 import org.raflab.studsluzba.controllers.response.PredIpsitnaObavezaResponse;
+import org.raflab.studsluzba.controllers.response.StudentPredispitniResponse;
 import org.raflab.studsluzba.maperi.PredIspitnaObavezaMaper;
+import org.raflab.studsluzba.maperi.StudentIndeksMaper;
+import org.raflab.studsluzba.maperi.StudentPredispitniMaper;
 import org.raflab.studsluzba.model.PredIspitnaObaveza;
 import org.raflab.studsluzba.model.Predmet;
 import org.raflab.studsluzba.model.SkolskaGodina;
+import org.raflab.studsluzba.model.StudentPredispitni;
 import org.raflab.studsluzba.repositories.PredIspitnaObavezaRepository;
 import org.raflab.studsluzba.repositories.PredmetRepository;
 import org.raflab.studsluzba.repositories.SkolskaGodinaRepository;
@@ -73,5 +78,15 @@ public class PredIspitnaObavezaService {
             throw new RuntimeException("PredIspitnaObaveza nije pronađena");
         }
         predIspitnaObavezaRepository.deleteById(id);
+    }
+    public Double rezultatiKol(String nazivP, int broj, int godina, String oznaka)
+    {
+        List<StudentPredispitni>studentPredispitnis=predIspitnaObavezaRepository.getAllByStudenskiIndeksiPredmet(nazivP,broj,godina,oznaka);
+        double sum=0;
+        for(StudentPredispitni s:studentPredispitnis)
+        {
+            sum+=s.getBrojPoena();
+        }
+        return sum;
     }
 }

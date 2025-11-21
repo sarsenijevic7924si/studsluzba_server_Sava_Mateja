@@ -3,12 +3,10 @@ package org.raflab.studsluzba.services;
 import lombok.AllArgsConstructor;
 import org.raflab.studsluzba.controllers.request.IspitRequest;
 import org.raflab.studsluzba.controllers.response.IspitResponse;
+import org.raflab.studsluzba.controllers.response.PolozenPredmetResponse;
 import org.raflab.studsluzba.controllers.response.SrednjaSkolaResponse;
 import org.raflab.studsluzba.controllers.response.StudentIndeksResponse;
-import org.raflab.studsluzba.maperi.IspitMaper;
-import org.raflab.studsluzba.maperi.NastavnikMaper;
-import org.raflab.studsluzba.maperi.SrednjaSkolaMaper;
-import org.raflab.studsluzba.maperi.StudentIndeksMaper;
+import org.raflab.studsluzba.maperi.*;
 import org.raflab.studsluzba.model.*;
 import org.raflab.studsluzba.repositories.*;
 import org.springframework.stereotype.Service;
@@ -108,7 +106,17 @@ public class IspitService {
                  .orElseThrow(() -> new RuntimeException("Ispit nije pronađen"));
          return IspitMaper.toResponse(i);
 
-
-
+    }
+    public List<IspitResponse> finPolozeniIpsit(int broj, int godina, String oznaka) {
+        return ispitRepository.findPolozniIpsit(broj, godina, oznaka)
+                .stream()
+                .map(IspitMaper::toResponse)
+                .collect(Collectors.toList());
+    }
+    public List<IspitResponse> finNePolozeniIpsit(int broj, int godina, String oznaka) {
+        return ispitRepository.findNePolozniIpsit(broj, godina, oznaka)
+                .stream()
+                .map(IspitMaper::toResponse)
+                .collect(Collectors.toList());
     }
 }

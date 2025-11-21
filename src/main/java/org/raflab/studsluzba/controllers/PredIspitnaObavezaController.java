@@ -32,6 +32,15 @@ public class PredIspitnaObavezaController {
     public PredIpsitnaObavezaResponse getById(@PathVariable Long id) {
         return predIspitnaObavezaService.getById(id);
     }
+    @GetMapping("/rezultat-kol")
+    public Double getRezultatKol(
+            @RequestParam String nazivP,
+            @RequestParam int broj,
+            @RequestParam int godina,
+            @RequestParam String oznaka
+    ) {
+        return predIspitnaObavezaService.rezultatiKol(nazivP, broj, godina, oznaka);
+    }
 
 
     @PatchMapping("/update/{id}")

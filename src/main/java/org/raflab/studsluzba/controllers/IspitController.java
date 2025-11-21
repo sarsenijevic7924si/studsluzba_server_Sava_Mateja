@@ -56,5 +56,20 @@ public class IspitController {
     public Double getAvg(@PathVariable Long ispitId) {
         return ispitService.avg(ispitId);
     }
-
+    @GetMapping("/polozeni")
+    public List<IspitResponse> getPolozeniByStudentIndeks(
+            @RequestParam int broj,
+            @RequestParam int godina,
+            @RequestParam String oznaka
+    ) {
+        return ispitService.finPolozeniIpsit(broj, godina, oznaka);
+    }
+    @GetMapping("/nepolozeni")
+    public List<IspitResponse> getNePolozeniByStudentIndeks(
+            @RequestParam int broj,
+            @RequestParam int godina,
+            @RequestParam String oznaka
+    ) {
+        return ispitService.finNePolozeniIpsit(broj, godina, oznaka);
+    }
 }

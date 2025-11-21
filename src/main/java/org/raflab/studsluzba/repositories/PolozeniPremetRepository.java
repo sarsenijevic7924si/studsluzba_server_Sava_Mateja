@@ -1,11 +1,13 @@
 package org.raflab.studsluzba.repositories;
 
+import org.raflab.studsluzba.model.Ispit;
 import org.raflab.studsluzba.model.PolozeniPredmeti;
 import org.raflab.studsluzba.model.Predmet;
 import org.raflab.studsluzba.model.StudentIndeks;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,5 +22,8 @@ public interface PolozeniPremetRepository extends JpaRepository<PolozeniPredmeti
             "order by pp.datumPolaganja asc")
     List<PolozeniPredmeti> findByStudentIndeks(int broj, int godina, String studProgramOznaka);
     boolean existsByStudentIndeksAndPredmet(StudentIndeks si, Predmet predmet);
+    @Query("select pp from PolozeniPredmeti pp where pp.datumPriznavanja>=:prvi and pp.datumPolaganja<=:drugi")
+    List<PolozeniPredmeti> getProsecnaOcenaZaGodine(LocalDate prvi, LocalDate drugi);
+
 
 }

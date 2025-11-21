@@ -74,9 +74,8 @@ public class PredmetService {
     }
 
     public List<PredmetResponse> findAll(){
-        return predmetRepository.findAll().stream()
-                .map(PredmetMaper::toResponse)
-                .collect(Collectors.toList());
+        return predmetRepository.findAll().stream().map(PredmetMaper::toResponse).collect(Collectors.toList());
+
     }
 
     public List<PredmetResponse> getPredmetForGodinaAkreditacije(Integer godinaAkreditacije){

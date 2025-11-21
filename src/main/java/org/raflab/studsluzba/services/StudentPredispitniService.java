@@ -23,14 +23,12 @@ public class StudentPredispitniService {
     private final StudentIndeksRepository studentIndeksRepository;
     private final PredIspitnaObavezaRepository predIspitnaObavezaRepository;
 
-    @Transactional(readOnly = true)
     public List<StudentPredispitniResponse> findAll() {
         return studentPredispitniRepository.findAll().stream()
                 .map(StudentPredispitniMaper::toResponse)
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public StudentPredispitniResponse findById(Long id) {
         StudentPredispitni sp = studentPredispitniRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Predispitni ne postoji"));

@@ -10,8 +10,10 @@ import org.raflab.studsluzba.model.PolozeniPredmeti;
 import org.raflab.studsluzba.model.Predmet;
 import org.raflab.studsluzba.services.PolozeniPredmetService;
 import org.raflab.studsluzba.services.PredmetService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 @CrossOrigin
 @RestController
@@ -54,5 +56,12 @@ public class PolozeniPredmetController {
     ) {
         return predmetService.findPolozeniByStudentIndeks(broj, godina, oznaka);
     }
-    //findPolozeniByStudentIndeks
+
+    @GetMapping("/prosek-za-godine")
+    public Double getPolozeniByStudentIndeks(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate prvi,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate drugi
+    ) {
+        return predmetService.proskeOcenaZaPeriod(prvi, drugi);
+    }
 }
