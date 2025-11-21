@@ -17,33 +17,28 @@ public class VrstaStudijaController {
     private final VrstaStudijaService vrstaStudijaService;
 
     @PostMapping("/add")
-    public ResponseEntity<VrstaStudijaResponse> create(@RequestBody VrstaStudijaRequest request) {
-        VrstaStudijaResponse response = vrstaStudijaService.create(request);
-        return ResponseEntity.ok(response);
+    public VrstaStudijaResponse create(@RequestBody VrstaStudijaRequest request) {
+        return vrstaStudijaService.create(request);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<VrstaStudijaResponse>> getAll() {
-        List<VrstaStudijaResponse> list = vrstaStudijaService.getAll();
-        return ResponseEntity.ok(list);
+    public List<VrstaStudijaResponse> getAll() {
+        return vrstaStudijaService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VrstaStudijaResponse> getById(@PathVariable Long id) {
-        VrstaStudijaResponse response = vrstaStudijaService.getById(id);
-        return ResponseEntity.ok(response);
+    public VrstaStudijaResponse getById(@PathVariable Long id) {
+        return vrstaStudijaService.getById(id);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<VrstaStudijaResponse> update(@PathVariable Long id,
+    @PatchMapping("/update/{id}")
+    public VrstaStudijaResponse update(@PathVariable Long id,
                                                        @RequestBody VrstaStudijaRequest request) {
-        VrstaStudijaResponse response = vrstaStudijaService.update(id, request);
-        return ResponseEntity.ok(response);
+        return vrstaStudijaService.update(id,request);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         vrstaStudijaService.delete(id);
-        return ResponseEntity.noContent().build();
     }
 }

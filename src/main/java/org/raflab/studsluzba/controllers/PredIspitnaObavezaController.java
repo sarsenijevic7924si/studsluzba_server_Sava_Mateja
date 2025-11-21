@@ -17,36 +17,31 @@ public class PredIspitnaObavezaController {
     private final PredIspitnaObavezaService predIspitnaObavezaService;
 
     @PostMapping("/add")
-    public ResponseEntity<PredIpsitnaObavezaResponse> create(@RequestBody PredIspitnaObavezaRequest request) {
-        PredIpsitnaObavezaResponse response = predIspitnaObavezaService.create(request);
-        return ResponseEntity.ok(response);
+    public PredIpsitnaObavezaResponse create(@RequestBody PredIspitnaObavezaRequest request) {
+        return predIspitnaObavezaService.create(request);
     }
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<PredIpsitnaObavezaResponse>> getAll() {
-        List<PredIpsitnaObavezaResponse> list = predIspitnaObavezaService.getAll();
-        return ResponseEntity.ok(list);
+    public List<PredIpsitnaObavezaResponse> getAll() {
+        return predIspitnaObavezaService.getAll();
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<PredIpsitnaObavezaResponse> getById(@PathVariable Long id) {
-        PredIpsitnaObavezaResponse response = predIspitnaObavezaService.getById(id);
-        return ResponseEntity.ok(response);
+    public PredIpsitnaObavezaResponse getById(@PathVariable Long id) {
+        return predIspitnaObavezaService.getById(id);
     }
 
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<PredIpsitnaObavezaResponse> update(@PathVariable Long id,
+    @PatchMapping("/update/{id}")
+    public PredIpsitnaObavezaResponse update(@PathVariable Long id,
                                                              @RequestBody PredIspitnaObavezaRequest request) {
-        PredIpsitnaObavezaResponse response = predIspitnaObavezaService.update(id, request);
-        return ResponseEntity.ok(response);
+        return predIspitnaObavezaService.update(id,request);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         predIspitnaObavezaService.delete(id);
-        return ResponseEntity.noContent().build();
     }
 }

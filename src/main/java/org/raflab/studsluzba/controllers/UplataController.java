@@ -18,35 +18,30 @@ public class UplataController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<UplataResponse> createUplata(@RequestBody UplataRequest request) {
-        UplataResponse response = uplataService.createUplata(request);
-        return ResponseEntity.ok(response);
+    public UplataResponse createUplata(@RequestBody UplataRequest request) {
+        return uplataService.createUplata(request);
     }
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<UplataResponse>> getAllUplate() {
-        List<UplataResponse> uplate = uplataService.getAllUplate();
-        return ResponseEntity.ok(uplate);
+    public List<UplataResponse> getAllUplate() {
+        return uplataService.getAllUplate();
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<UplataResponse> getUplataById(@PathVariable Long id) {
-        UplataResponse response = uplataService.getUplataById(id);
-        return ResponseEntity.ok(response);
+    public UplataResponse getUplataById(@PathVariable Long id) {
+        return uplataService.getUplataById(id);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<UplataResponse> updateUplata(@PathVariable Long id, @RequestBody UplataRequest request) {
-        UplataResponse response = uplataService.updateUplata(id, request);
-        return ResponseEntity.ok(response);
+    public UplataResponse updateUplata(@PathVariable Long id, @RequestBody UplataRequest request) {
+        return uplataService.updateUplata(id,request);
     }
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteUplata(@PathVariable Long id) {
+    public void       vdeleteUplata(@PathVariable Long id) {
         uplataService.deleteUplata(id);
-        return ResponseEntity.noContent().build();
     }
 }

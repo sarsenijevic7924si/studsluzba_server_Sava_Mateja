@@ -28,6 +28,10 @@ public class IspitController {
     final IspitService ispitService;
     public final PrijavaIspitaService prijavaIspitaService;
 
+    @GetMapping("/{id}")
+    public IspitResponse getAllIspiti(@PathVariable Long id) {
+        return ispitService.findById(id);
+    }
     @GetMapping("/all")
     public List<IspitResponse> getAllIspiti() {
         return ispitService.findAll();

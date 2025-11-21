@@ -38,7 +38,7 @@ public class NastavnikZvanjeController {
                 .collect(Collectors.toList());
     }
 
-    @PutMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     public NastavnikZvanjeResponse updateZvanje(@PathVariable Long id, @RequestBody NastavnikZvanjeRequest request) {
         NastavnikZvanje updated = zvanjeService.updateNastavnikZvanje(id, request);
         return NastavnikZvanjeMaper.toResponse(updated);

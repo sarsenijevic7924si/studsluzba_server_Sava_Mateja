@@ -30,7 +30,7 @@ public class PrijavaIspitaController {
         return prijavaIspitaService.createPrijavaIspita(request);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/update/{id}")
     public PrijavaIspitaResponse update(@PathVariable Long id, @RequestBody PrijavaIspitaRequest request) {
         return prijavaIspitaService.updatePrijavaIspita(id, request);
     }

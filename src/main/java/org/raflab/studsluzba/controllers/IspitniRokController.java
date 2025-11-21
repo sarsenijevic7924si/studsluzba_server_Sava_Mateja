@@ -35,4 +35,9 @@ public class IspitniRokController {
     public IspitniRokResponse patchPredmet(@PathVariable Long id, @RequestBody IspitniRokRequest request) {
         return ispitniService.updateIspitniRok(id, request);
     }
+    @GetMapping("/{id}")
+    public IspitniRokResponse getRokId(@PathVariable Long id)
+    {
+        return ispitniService.findById(id);
+    }
 }

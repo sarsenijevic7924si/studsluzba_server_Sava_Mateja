@@ -29,7 +29,7 @@ public class SkolskaGodinaController {
         return skolskaGodinaService.getById(id);
     }
 
-    @PutMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     public SkolskaGodinaResponse update(@PathVariable Long id,
                                         @RequestBody SkolskaGodinaRequest request) {
         return skolskaGodinaService.update(id, request);

@@ -31,7 +31,7 @@ public class SlusaPredmetController {
     public List<SlusaPredmetResponse> findAll() {
         return slusaPredmetService.findAll();
     }
-    @PutMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     public SlusaPredmetResponse update(@PathVariable Long id,
                                        @RequestBody SlusaPredmetRequest request) {
         return slusaPredmetService.updateSlusaPredmet(id, request);

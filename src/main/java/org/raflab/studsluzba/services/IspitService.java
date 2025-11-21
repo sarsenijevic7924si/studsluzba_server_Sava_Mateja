@@ -102,4 +102,13 @@ public class IspitService {
         avg=sum/count;
         return avg;
     }
+    public IspitResponse findById(Long id)
+    {
+         Ispit i=ispitRepository.findById(id)
+                 .orElseThrow(() -> new RuntimeException("Ispit nije pronađen"));
+         return IspitMaper.toResponse(i);
+
+
+
+    }
 }

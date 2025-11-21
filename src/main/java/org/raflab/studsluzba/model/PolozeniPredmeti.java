@@ -21,7 +21,7 @@ public class PolozeniPredmeti {
 
     @ManyToOne
     private Predmet predmet;
-
+//Ocena = Predistne Plus Ipsit
     private int ocena;
 
     private LocalDate datumPolaganja;

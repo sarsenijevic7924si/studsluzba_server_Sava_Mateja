@@ -19,16 +19,16 @@ public interface StudentIndeksRepository extends JpaRepository<StudentIndeks, Lo
 	@Query("select indeks from StudentIndeks indeks where indeks.studProgramOznaka like ?1 and indeks.godina = ?2 "
 			+ "and indeks.broj = ?3 ")
     StudentIndeks findStudentIndeks(String studProgramOznaka, int godina, int broj);
-	
-	
-	//TODO dodati da se gledaju samo aktivni indeksi
+	@Query("select si from StudentIndeks si where si.id=:id and si.aktivan=true ")
+ 	Optional<StudentIndeks> findByAktivanAndId(Long id);
+
 	@Query("select indeks from StudentIndeks indeks where "
 			+ "(:ime is null or lower(indeks.student.ime) like :ime) and "
 			+ "(:prezime is null or lower(indeks.student.prezime) like :prezime) and "
 			+ "(:studProgramOznaka is null or lower(indeks.studProgramOznaka) like :studProgramOznaka) and"
 			+ "(:godina is null or indeks.godina = :godina) and "
 			+ "(:broj is null or indeks.broj = :broj)")
-	Page<StudentIndeks> findStudentIndeks(String ime, String prezime, String studProgramOznaka, Integer godina, Integer broj, Pageable pageable);
+	Optional<StudentIndeks> findStudentIndeks(String ime, String prezime, String studProgramOznaka, Integer godina, Integer broj);
 	Optional<StudentIndeks> findByBrojAndGodinaAndStudProgramOznakaAndAktivan(
 			int broj, int godina, String studProgramOznaka, boolean aktivan
 	);

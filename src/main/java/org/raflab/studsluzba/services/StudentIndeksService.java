@@ -2,6 +2,7 @@ package org.raflab.studsluzba.services;
 
 import lombok.AllArgsConstructor;
 import org.raflab.studsluzba.controllers.request.StudentIndeksRequest;
+import org.raflab.studsluzba.controllers.response.StudentIndeksResponse;
 import org.raflab.studsluzba.controllers.response.StudentPodaciResponse;
 import org.raflab.studsluzba.maperi.StudentIndeksMaper;
 import org.raflab.studsluzba.maperi.StudentPodaciMaper;
@@ -63,36 +64,41 @@ public class StudentIndeksService {
         return expected;
     }
 
-    @Transactional(readOnly = true)
-    public StudentIndeks findByStudentIdAndAktivan(Long studentPodaciId) {
-        return studentIndeksRepository.findAktivanStudentIndeksiByStudentPodaciId(studentPodaciId);
+    public StudentIndeksResponse findById(Long indeksId) {
+        StudentIndeks si=studentIndeksRepository.findById(indeksId)
+                .orElseThrow(() -> new RuntimeException("Student sa ID ne postoji"));
+        return StudentIndeksMaper.toResponse(si);
     }
 
-    public StudentIndeks findById(Long id) {
-        Optional<StudentIndeks> si = studentIndeksRepository.findById(id);
-        return si.orElse(null);
+    public StudentIndeksResponse findByAktivanAndId(Long id) {
+        StudentIndeks si=studentIndeksRepository.findByAktivanAndId(id)
+                .orElseThrow(() -> new RuntimeException("Student sa ID ne postoji ili nema ni jednog aktivnog sa tim idom"));
+        return StudentIndeksMaper.toResponse(si);
+
     }
 
-    public Page<StudentIndeks> searchIndeksi(String ime, String prezime, String studProgram, Integer godina, Integer broj, Pageable pageable) {
-        return studentIndeksRepository.findStudentIndeks(
+    public  StudentIndeksResponse searchIndeksi(String ime, String prezime, String studProgram, Integer godina, Integer broj, Pageable pageable) {
+        StudentIndeks si= studentIndeksRepository.findStudentIndeks(
                 ime != null ? ime.toLowerCase() : null,
                 prezime != null ? prezime.toLowerCase() : null,
                 studProgram != null ? studProgram.toLowerCase() : null,
                 godina,
-                broj,
-                pageable
-        );
+                broj
+        )
+                .orElseThrow(() -> new RuntimeException("Student sa ID ne postoji"));
+        return StudentIndeksMaper.toResponse(si);
     }
 
     public List<StudentIndeks> findIndeksiForStudentPodaciId(Long idStudentPodaci) {
         return studentIndeksRepository.findStudentIndeksiForStudentPodaciId(idStudentPodaci);
+
     }
 
 
     /* ---------------------- SAVE ---------------------- */
 
     @Transactional
-    public StudentIndeks saveIndeks(StudentIndeksRequest request) {
+    public StudentIndeksResponse saveIndeks(StudentIndeksRequest request) {
         // Mapiranje request -> entity
         StudentIndeks indeks = StudentIndeksMaper.toEntity(request);
 
@@ -117,14 +123,15 @@ public class StudentIndeksService {
         }
 
         // Čuvanje u repo
-        return studentIndeksRepository.save(indeks);
+       studentIndeksRepository.save(indeks);
+        return StudentIndeksMaper.toResponse(indeks);
     }
 
 
     /* ---------------------- PATCH / UPDATE ---------------------- */
 
     @Transactional
-    public StudentIndeks updateIndeks(Long id, StudentIndeksRequest request) {
+    public StudentIndeksResponse updateIndeks(Long id, StudentIndeksRequest request) {
         StudentIndeks existing = studentIndeksRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Indeks ne postoji"));
 
@@ -161,7 +168,8 @@ public class StudentIndeksService {
             existing.setStudent(student);
         }
 
-        return studentIndeksRepository.save(existing);
+        studentIndeksRepository.save(existing);
+        return StudentIndeksMaper.toResponse(existing);
     }
 
     /* ---------------------- DELETE ---------------------- */
@@ -173,11 +181,11 @@ public class StudentIndeksService {
         studentIndeksRepository.delete(existing);
     }
 
-    /* ---------------------- LIST / FIND ALL ---------------------- */
 
-    @Transactional(readOnly = true)
-    public List<StudentIndeks> findAllIndeksi() {
-        return studentIndeksRepository.findAll();
+
+    public List<StudentIndeksResponse> findAllIndeksi() {
+        return studentIndeksRepository.findAll().stream().map(StudentIndeksMaper::toResponse).collect(Collectors.toList());
+
     }
 
     public StudentPodaciResponse findStudentPodaciByIndeks(int broj, int godina, String oznaka) {

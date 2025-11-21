@@ -55,8 +55,16 @@ public class PolozeniPredmetService {
 
         return PolozeniPredmetMaper.toResponse(p);
     }
-    public Iterable<PolozeniPredmeti> findAll(){
-        return polozeniRepo.findAll();
+    public List<PolozenPredmetResponse> findAll(){
+        return polozeniRepo.findAll().stream()
+                .map(PolozeniPredmetMaper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    public PolozenPredmetResponse findById(Long id){
+        PolozeniPredmeti pp=polozeniRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Predmet id ne postoji"));
+        return PolozeniPredmetMaper.toResponse(pp);
     }
     public List<PolozenPredmetResponse> findPolozeniByIndeks(Long studentIndeksId) {
         return polozeniRepo.findByStudentIndeksId(studentIndeksId)
@@ -83,7 +91,6 @@ public class PolozeniPredmetService {
                 ));
 
 
-        if (request.getOcena() != null) entity.setOcena(request.getOcena());
         if (request.getDatumPolaganja() != null) entity.setDatumPolaganja(request.getDatumPolaganja());
 
         // Ako se menja student

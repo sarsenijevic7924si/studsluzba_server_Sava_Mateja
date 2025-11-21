@@ -21,8 +21,13 @@ public class PolozeniPredmetController {
     final PolozeniPredmetService predmetService;
 
     @GetMapping(path = "/all")
-    public Iterable<PolozeniPredmeti> getPredmeti(){
+    public List<PolozenPredmetResponse> getPredmeti(){
         return predmetService.findAll();
+    }
+    @GetMapping(path = "/{id}")
+    public PolozenPredmetResponse getPredmet(@PathVariable Long id)
+    {
+        return predmetService.findById(id);
     }
 
     @PostMapping(path = "/add")

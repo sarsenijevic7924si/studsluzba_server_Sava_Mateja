@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.raflab.studsluzba.controllers.request.StudentIndeksRequest;
 import org.raflab.studsluzba.controllers.request.StudentPodaciRequest;
+import org.raflab.studsluzba.controllers.request.StudijskiProgramReqest;
 import org.raflab.studsluzba.controllers.response.StudentIndeksResponse;
 import org.raflab.studsluzba.controllers.response.StudentPodaciResponse;
+import org.raflab.studsluzba.controllers.response.StudijskiProgramResponse;
 import org.raflab.studsluzba.maperi.StudentIndeksMaper;
 import org.raflab.studsluzba.maperi.StudentPodaciMaper;
 import org.raflab.studsluzba.model.StudentIndeks;
@@ -27,37 +29,49 @@ public class StudentController {
 
 	private final StudentPodaciService studentPodaciService;
 	private final StudentIndeksService studentIndeksService;
-	private final StudentPodaciMaper studentPodaciMaper;
-	private final StudentIndeksMaper studentIndeksMaper;
 
-	// -------------------- StudentPodaci --------------------
+	//POdaci
 	@PostMapping("/add")
 	public StudentPodaciResponse addStudentPodaci(@RequestBody StudentPodaciRequest request) {
-		StudentPodaci saved = studentPodaciService.saveStudentPodaci(request);
-		return studentPodaciMaper.toResponse(saved);
+		return studentPodaciService.saveStudentPodaci(request);
 	}
-
-
-
-
 
 	@GetMapping("/{id}")
 	public StudentPodaciResponse getStudentPodaci(@PathVariable Long id) {
-		StudentPodaci sp = studentPodaciService.findById(id);
-		return studentPodaciMaper.toResponse(sp);
+		return studentPodaciService.getStudentById(id);
 	}
+	@GetMapping("/all")
+	public List<StudentPodaciResponse> getStudentPodaci() {
+		 return studentPodaciService.getAllStudents();
+	}
+	@DeleteMapping("/delete/{id}")
+	public void DeletePodaci(@PathVariable Long id) {
+		studentPodaciService.deleteStudent(id);
+	}
+	@PatchMapping("/update/{id}")
+	public StudentPodaciResponse patch(@PathVariable Long id, @RequestBody StudentPodaciRequest request) {
+		return studentPodaciService.updateStudent(id, request);
+	}
+
 
 	// -------------------- StudentIndeks --------------------
 	@PostMapping("/indeks/add")
 	public StudentIndeksResponse addStudentIndeks(@RequestBody StudentIndeksRequest request) {
-		StudentIndeks saved = studentIndeksService.saveIndeks(request);
-		return studentIndeksMaper.toResponse(saved);
+
+		return studentIndeksService.saveIndeks(request);
 	}
 
 	@GetMapping("/indeks/{id}")
 	public StudentIndeksResponse getStudentIndeks(@PathVariable Long id) {
-		StudentIndeks si = studentIndeksService.findById(id);
-		return studentIndeksMaper.toResponse(si);
+		return studentIndeksService.findById(id);
+	}
+	@GetMapping("/indeks/aktivan/{id}")
+	public StudentIndeksResponse getStudentAktivanIndeks(@PathVariable Long id) {
+		return studentIndeksService.findByAktivanAndId(id);
+	}
+	@GetMapping("/indeks/all")
+	public List<StudentIndeksResponse> getStudentIndeks() {
+		return studentIndeksService.findAllIndeksi();
 	}
 
 	//@GetMapping("/indeksi/{studentPodaciId}")
@@ -81,11 +95,11 @@ public class StudentController {
 	//			.map(studentIndeksMaper::toResponse);
 	//}
 
-	@PutMapping("/indeks/update/{id}")
+	@PatchMapping("/indeks/update/{id}")
 	public StudentIndeksResponse updateStudentIndeks(@PathVariable Long id,
 													 @RequestBody StudentIndeksRequest request) {
-		StudentIndeks updated = studentIndeksService.updateIndeks(id, request);
-		return studentIndeksMaper.toResponse(updated);
+
+		return studentIndeksService.updateIndeks(id, request);
 	}
 
 	@DeleteMapping("/indeks/delete/{id}")

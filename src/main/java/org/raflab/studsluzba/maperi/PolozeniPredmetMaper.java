@@ -13,7 +13,6 @@ public class PolozeniPredmetMaper {
         PolozeniPredmeti p = new PolozeniPredmeti();
         p.setStudentIndeks(studentIndeks);
         p.setPredmet(predmet);
-        p.setOcena(request.getOcena());
         p.setNacin(request.getNacin());
 
         if (request.getNacin() == NacinOcene.POLAGANJE) {

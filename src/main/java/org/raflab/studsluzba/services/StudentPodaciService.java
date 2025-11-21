@@ -22,9 +22,10 @@ public class StudentPodaciService {
     private final StudentPodaciRepository studentPodaciRepository;
 
     @Transactional
-    public StudentPodaci saveStudentPodaci(StudentPodaciRequest request) {
-        StudentPodaci entity = StudentPodaciMaper.toEntity(request);
-        return studentPodaciRepository.save(entity);
+    public StudentPodaciResponse saveStudentPodaci(StudentPodaciRequest request) {
+        StudentPodaci sp=StudentPodaciMaper.toEntity(request);
+        studentPodaciRepository.save(sp);
+        return StudentPodaciMaper.toResponse(sp);
     }
 
 
@@ -32,7 +33,7 @@ public class StudentPodaciService {
     @Transactional
     public StudentPodaciResponse updateStudent(Long id, StudentPodaciRequest request) {
         Optional<StudentPodaci> optionalStudent = studentPodaciRepository.findById(id);
-        if (!optionalStudent.isPresent()) {
+        if (optionalStudent.isEmpty()) {
             throw new RuntimeException("Student sa ID " + id + " ne postoji");
         }
 
@@ -66,36 +67,21 @@ public class StudentPodaciService {
 
     @Transactional
     public void deleteStudent(Long id) {
-        if (!studentPodaciRepository.existsById(id)) {
-            throw new RuntimeException("Student sa ID " + id + " ne postoji");
-        }
         studentPodaciRepository.deleteById(id);
     }
 
-    // Get all students
+
     public List<StudentPodaciResponse> getAllStudents() {
         return studentPodaciRepository.findAll().stream()
                 .map(StudentPodaciMaper::toResponse)
                 .collect(Collectors.toList());
     }
 
-    // Get student by ID
+
     public StudentPodaciResponse getStudentById(Long id) {
         StudentPodaci student = studentPodaciRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student sa ID " + id + " ne postoji"));
         return StudentPodaciMaper.toResponse(student);
-    }
-    public StudentPodaci findById(Long id) {
-        Optional<StudentPodaci> sp = studentPodaciRepository.findById(id);
-        return sp.orElse(null);
-    }
-
-    public List<StudentPodaci> findAll() {
-        return studentPodaciRepository.findAll();
-    }
-
-    public Page<StudentPodaci> findAllPaginated(Pageable pageable) {
-        return studentPodaciRepository.findAll(pageable);
     }
 
 }

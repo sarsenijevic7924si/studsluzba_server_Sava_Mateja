@@ -22,12 +22,16 @@ public class PredmetController {
 	private final SlusaPredmetService slusaPredmetService;
 	
 	@GetMapping(path = "/all")
-	public Iterable<Predmet> getPredmeti(){
+	public List<PredmetResponse> getPredmeti(){
 		return predmetService.findAll();
+	}
+	@GetMapping(path = "/{id}")
+	public PredmetResponse getPredmeti(@PathVariable Long id){
+		return predmetService.FindById(id);
 	}
 	
 	@GetMapping(path = "/all/{godinaAkreditacije}")
-	public List<Predmet> getPredmetiForGodinaAkreditacije(@PathVariable Integer godinaAkreditacije){
+	public List<PredmetResponse> getPredmetiForGodinaAkreditacije(@PathVariable Integer godinaAkreditacije){
 		return predmetService.getPredmetForGodinaAkreditacije(godinaAkreditacije);
 	}
 	@PostMapping(path = "/add")

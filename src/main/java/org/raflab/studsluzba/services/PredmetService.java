@@ -11,11 +11,14 @@ import org.raflab.studsluzba.model.StudijskiProgram;
 import org.raflab.studsluzba.repositories.PredmetRepository;
 import org.raflab.studsluzba.repositories.SlusaPredmetRepository;
 import org.raflab.studsluzba.repositories.StudijskiProgramRepository;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.Arrays.stream;
 
 @AllArgsConstructor
 @Service
@@ -38,9 +41,8 @@ public class PredmetService {
     }
     @Transactional
     public void deletePredmet(Long id) {
-        Predmet predmet = predmetRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Predmet sa ID " + id + " nije pronađen."));
-        predmetRepository.delete(predmet);
+
+        predmetRepository.deleteById(id);
     }
     @Transactional
     public PredmetResponse updatePredmet(Long id, PredmetRequest request) {
@@ -64,12 +66,16 @@ public class PredmetService {
         return PredmetMaper.toResponse(updated);
     }
 
-    public Iterable<Predmet> findAll(){
-        return predmetRepository.findAll();
+    public List<PredmetResponse> findAll(){
+        return predmetRepository.findAll().stream()
+                .map(PredmetMaper::toResponse)
+                .collect(Collectors.toList());
     }
 
-    public List<Predmet> getPredmetForGodinaAkreditacije(Integer godinaAkreditacije){
-        return predmetRepository.getPredmetForGodinaAkreditacije(godinaAkreditacije);
+    public List<PredmetResponse> getPredmetForGodinaAkreditacije(Integer godinaAkreditacije){
+        return predmetRepository.getPredmetForGodinaAkreditacije(godinaAkreditacije).stream()
+                .map(PredmetMaper::toResponse)
+                .collect(Collectors.toList());
     }
     public List<PredmetResponse> getNePolozeniPredmeti(int broj, int godina, String oznaka)
     {
@@ -79,6 +85,12 @@ public class PredmetService {
                 .stream()
                 .map(PredmetMaper::toResponse)
                 .collect(Collectors.toList());
+    }
+    public PredmetResponse FindById(Long id)
+    {
+        Predmet p=predmetRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Predmet sa ID " + id + " nije pronađen."));
+        return PredmetMaper.toResponse(p);
     }
 
 }

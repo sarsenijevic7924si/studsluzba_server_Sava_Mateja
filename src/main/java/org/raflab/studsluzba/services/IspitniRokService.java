@@ -27,7 +27,7 @@ public class IspitniRokService {
         SkolskaGodina sg = skolskaGodinaRepository.findById(request.getSkolskaGodinaId())
                 .orElseThrow(() -> new RuntimeException("Školska godina nije pronađena."));
 
-        // Kreiramo entitet preko mapera
+
         IspitniRok ispitniRok = IspitniRokMaper.toIspitniRok(request, sg);
 
         IspitniRok saved = ispitniRokRepository.save(ispitniRok);
