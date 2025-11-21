@@ -19,5 +19,7 @@ public interface PredmetRepository extends JpaRepository<Predmet, Long> {
 
 	List<Predmet> findByIdIn(List<Long> ids);
 	List<Predmet> findByNazivIn(List<String> nazivi);
+	@Query("select p from Predmet p where p.studProgram.oznaka=:studProgramOznaka")
+	List<Predmet> getPredmetiZasStudenskiProgram(String studProgramOznaka);
 
 }

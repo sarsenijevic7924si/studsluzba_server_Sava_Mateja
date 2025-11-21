@@ -53,5 +53,10 @@ public class PredmetController {
 			@RequestParam String oznaka){
 		return predmetService.getNePolozeniPredmeti(broj,godina,oznaka);
 	}
+	@GetMapping("StudProgram/{sps}")
+	public List<PredmetResponse> GetPredmetsPoStidoskom(@PathVariable String sps)
+	{
+		return predmetService.FindPredmetPoProgramu(sps);
+	}
 
 }

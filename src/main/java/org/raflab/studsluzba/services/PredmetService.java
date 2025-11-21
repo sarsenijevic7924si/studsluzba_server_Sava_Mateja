@@ -92,5 +92,10 @@ public class PredmetService {
                 .orElseThrow(() -> new RuntimeException("Predmet sa ID " + id + " nije pronađen."));
         return PredmetMaper.toResponse(p);
     }
+    public List<PredmetResponse> FindPredmetPoProgramu(String programSkraceni)
+    {
+        List<Predmet> predmets=predmetRepository.getPredmetiZasStudenskiProgram(programSkraceni);
+        return predmets.stream().map(PredmetMaper::toResponse).collect(Collectors.toList());
+    }
 
 }
