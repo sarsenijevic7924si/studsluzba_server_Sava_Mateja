@@ -1,6 +1,7 @@
 package org.raflab.studsluzba.repositories;
 
 import org.raflab.studsluzba.model.PolozeniPredmeti;
+import org.raflab.studsluzba.model.Predmet;
 import org.raflab.studsluzba.model.StudentIndeks;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,6 @@ public interface PolozeniPremetRepository extends JpaRepository<PolozeniPredmeti
             "and pp.studentIndeks.studProgramOznaka = :studProgramOznaka " +
             "order by pp.datumPolaganja asc")
     List<PolozeniPredmeti> findByStudentIndeks(int broj, int godina, String studProgramOznaka);
+    boolean existsByStudentIndeksAndPredmet(StudentIndeks si, Predmet predmet);
+
 }

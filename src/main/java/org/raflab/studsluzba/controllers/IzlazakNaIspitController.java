@@ -24,6 +24,7 @@ public class IzlazakNaIspitController {
     @PostMapping(path = "/add")
     public IzlazakNaIspitResponse addIzlazak(@RequestBody IzlazakNaIspitRequest request) {
         return izlazakNaIspitService.saveIzlazak(request);
+
     }
     @DeleteMapping(path = "/delete/{id}")
     public void deleteIzlazak(@PathVariable Long id) {
@@ -33,4 +34,5 @@ public class IzlazakNaIspitController {
     public IzlazakNaIspitResponse patchPredmet(@PathVariable Long id, @RequestBody IzlazakNaIspitRequest request) {
         return izlazakNaIspitService.updateIzlazakNaIspit(id, request);
     }
+
 }
