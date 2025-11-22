@@ -28,7 +28,7 @@ public class StudentPodaciService {
     @Autowired
     private SlusaPredmetRepository slusaPredmetRepository;
 
-
+    private final SkolskaGodinaRepository skolskaGodinaRepository;
     private final UpisGodineRepository upisGodineRepository;
     private final StudentPodaciRepository studentPodaciRepository;
     private final SrednjaSkolaRepository srednjaSkolaRepository;
@@ -44,10 +44,11 @@ public class StudentPodaciService {
     }
     @Transactional
     public UpisGodineResponse upisiStudentaNaGodinu(Long studentId,
-                                                    SkolskaGodina skolskaGodina,
+                                                    Long skolskaGodinaId,
                                                     Integer godinaKojaSeUpisuje) {
 
-        // 1. Pronađi indeks
+        SkolskaGodina skolskaGodina = skolskaGodinaRepository.findById(skolskaGodinaId)
+                .orElseThrow(() -> new RuntimeException("Školska godina nije pronađena"));
         StudentIndeks indeks = studentIndeksRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student nije pronađen"));
 
@@ -158,6 +159,5 @@ public class StudentPodaciService {
                 .findStudentByImeiPrezime(imeFilter, prezimeFilter, pageable);
         return page.map(StudentPodaciMaper::toResponse);
     }
-
 }
 

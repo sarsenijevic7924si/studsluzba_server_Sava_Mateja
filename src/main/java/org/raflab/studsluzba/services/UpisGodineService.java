@@ -61,8 +61,8 @@ public class UpisGodineService {
     }
 
     // CUSTOM — find by student indeks
-    public List<UpisGodineResponse> findByStudentIndeks(int broj, int godina, String studProgramOznaka) {
-        return upisGodineRepository.findByStudentIndeks(broj, godina, studProgramOznaka)
+    public List<UpisGodineResponse> findByStudentIndeks(Long indeksId) {
+        return upisGodineRepository.findByStudentIndeksId(indeksId)
                 .stream()
                 .map(upisGodineMapper::toResponse)
                 .collect(Collectors.toList());

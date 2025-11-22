@@ -11,10 +11,6 @@ import java.util.List;
 
 @Repository
 public interface UpisGodineRepository extends JpaRepository<UpisGodine,Long> {
-    @Query("select ug from UpisGodine ug " +
-            "where ug.studentIndeks.broj = :broj " +
-            "and ug.studentIndeks.godina = :godina " +
-            "and ug.studentIndeks.studProgramOznaka = :studProgramOznaka " +
-            "order by ug.godinaKojaSeUpisuje asc")
-    List<UpisGodine> findByStudentIndeks(int broj, int godina, String studProgramOznaka);
+    List<UpisGodine> findByStudentIndeksId(Long indeksId);
+
 }

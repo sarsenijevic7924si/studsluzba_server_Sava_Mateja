@@ -121,18 +121,17 @@ public class StudentController {
 	{
 		return studentIndeksService.findStudentPodaciByIndeks(broj, godina, oznaka);
 	}
-	/*
+
 	@PostMapping("/upis/{studentId}/{skolskaGodinaId}/{godinaKojaSeUpisuje}")
 	public UpisGodineResponse upisiStudentaNaGodinu(
 			@PathVariable Long studentId,
 			@PathVariable Long skolskaGodinaId,
 			@PathVariable Integer godinaKojaSeUpisuje
 	) {
-		SkolskaGodina skolskaGodina = skolskaGodinaRepository.findById(skolskaGodinaId)
-				.orElseThrow(() -> new RuntimeException("Školska godina nije pronađena"));
 
-		return studentPodaciService.upisiStudentaNaGodinu(studentId, skolskaGodina, godinaKojaSeUpisuje);
-	}*/
+
+		return studentPodaciService.upisiStudentaNaGodinu(studentId, skolskaGodinaId, godinaKojaSeUpisuje);
+	}
 	@GetMapping("/srednja")
 	public List<StudentIndeksResponse> getBySrednjaSkola(@RequestParam String naziv) {
 		return studentIndeksService.findStudentSrednja(naziv);

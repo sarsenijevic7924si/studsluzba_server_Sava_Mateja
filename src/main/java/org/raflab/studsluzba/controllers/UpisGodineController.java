@@ -16,7 +16,7 @@ public class UpisGodineController {
     private final UpisGodineService upisGodineService;
 
     // CREATE
-    @PostMapping
+    @PostMapping("/add")
     public UpisGodineResponse create(@RequestBody UpisGodineRequest request) {
         return upisGodineService.create(request);
     }
@@ -43,12 +43,10 @@ public class UpisGodineController {
     }
 
     // CUSTOM — find by student indeks
-    @GetMapping("/by-student")
+    @GetMapping("/by-student/{indeksId}")
     public List<UpisGodineResponse> findByStudent(
-            @RequestParam int broj,
-            @RequestParam int godina,
-            @RequestParam String studProgramOznaka) {
+            @PathVariable Long indeksId) {
 
-        return upisGodineService.findByStudentIndeks(broj, godina, studProgramOznaka);
+        return upisGodineService.findByStudentIndeks(indeksId);
     }
 }
