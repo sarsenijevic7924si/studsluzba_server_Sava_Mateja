@@ -2,6 +2,8 @@ package org.raflab.studsluzba.repositories;
 
 import org.raflab.studsluzba.model.Grupa;
 import org.raflab.studsluzba.model.Ispit;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -20,18 +22,21 @@ public interface IspitRepository extends JpaRepository<Ispit, Long> {
 
     @Query("select pp.ocena from Ispit i join PrijavaIspita pi on pi.ispit.id=i.id join PolozeniPredmeti pp on pp.studentIndeks=pi.studentIndeks")
     List<Integer> findOceneByIspitId(Long id);
-    @Query("select i from PolozeniPredmeti pp join Predmet" +
-            " p on pp.predmet.id=p.id join Ispit i on i.predmet.id=p.id where pp.studentIndeks.broj = :broj " +
+    @Query("select i from PolozeniPredmeti pp join Predmet p on pp.predmet.id = p.id " +
+            "join Ispit i on i.predmet.id = p.id " +
+            "where pp.studentIndeks.broj = :broj " +
             "and pp.studentIndeks.godina = :godina " +
             "and pp.studentIndeks.studProgramOznaka = :studProgramOznaka " +
             "order by pp.datumPolaganja asc")
-    List<Ispit> findPolozniIpsit(int broj, int godina, String studProgramOznaka);
+    Page<Ispit> findPolozniIpsit(int broj, int godina, String studProgramOznaka, Pageable pageable);
 
-    @Query("select i from Predmet p join" +
-            " Ispit i on p.id=i.predmet.id join" +
-            " DrziPredmet dp on p.id=dp.predmet.id join SlusaPredmet sp on dp.id=sp.drziPredmet.id where sp.studentIndeks.broj=:broj and sp.studentIndeks.godina = :godina " +
-            "and sp.studentIndeks.studProgramOznaka = :studProgramOznaka ")
-    List<Ispit> findNePolozniIpsit(int broj, int godina, String studProgramOznaka);
+    @Query("select i from Predmet p join Ispit i on p.id = i.predmet.id " +
+            "join DrziPredmet dp on p.id = dp.predmet.id " +
+            "join SlusaPredmet sp on dp.id = sp.drziPredmet.id " +
+            "where sp.studentIndeks.broj = :broj " +
+            "and sp.studentIndeks.godina = :godina " +
+            "and sp.studentIndeks.studProgramOznaka = :studProgramOznaka")
+    Page<Ispit> findNePolozniIpsit(int broj, int godina, String studProgramOznaka, Pageable pageable);
 
 
 

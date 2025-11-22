@@ -1,6 +1,7 @@
 package org.raflab.studsluzba.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.raflab.studsluzba.model.Nastavnik;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +14,7 @@ public interface NastavnikRepository extends JpaRepository<Nastavnik, Long> {	//
 	@Query("select sp from Nastavnik sp where "
 			+ "(:ime is null or lower(sp.ime) like :ime) and "
 			+ "(:prezime is null or lower(sp.prezime) like :prezime)")			
-	List<Nastavnik> findByImeAndPrezime(String ime, String prezime);
+	Optional<Nastavnik> findByImeAndPrezime(String ime, String prezime);
 
 	List<Nastavnik> findByEmailIn(List<String> emails);
 	

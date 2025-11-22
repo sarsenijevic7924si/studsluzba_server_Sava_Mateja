@@ -2,12 +2,13 @@ package org.raflab.studsluzba.maperi;
 
 import org.raflab.studsluzba.controllers.request.StudentPodaciRequest;
 import org.raflab.studsluzba.controllers.response.StudentPodaciResponse;
+import org.raflab.studsluzba.model.SrednjaSkola;
 import org.raflab.studsluzba.model.StudentPodaci;
 import org.springframework.stereotype.Component;
 
 @Component
 public class StudentPodaciMaper {
-    public static StudentPodaci toEntity(StudentPodaciRequest request) {
+    public static StudentPodaci toEntity(StudentPodaciRequest request, SrednjaSkola srednjaSkola) {
         if (request == null) return null;
 
         StudentPodaci student = new StudentPodaci();
@@ -32,6 +33,7 @@ public class StudentPodaciMaper {
         student.setAdresaStanovanja(request.getAdresaStanovanja());
         student.setUspehSrednja(request.getUspehSrednja());
         student.setUspehPrijemni(request.getUspehPrijemni());
+        student.setSrednjaSkola(srednjaSkola);
 
         return student;
     }
@@ -61,6 +63,11 @@ public class StudentPodaciMaper {
         response.setLicnuKartuIzdao(student.getLicnuKartuIzdao());
         response.setMestoStanovanja(student.getMestoStanovanja());
         response.setAdresaStanovanja(student.getAdresaStanovanja());
+        response.setNazivSrednja(
+                student.getSrednjaSkola() == null
+                        ? ""
+                        : student.getSrednjaSkola().getNaziv()
+        );
 
         return response;
     }

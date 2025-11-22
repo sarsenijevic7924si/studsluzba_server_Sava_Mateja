@@ -8,6 +8,7 @@ import org.raflab.studsluzba.model.StudentIndeks;
 import org.raflab.studsluzba.model.Uplata;
 import org.raflab.studsluzba.repositories.StudentIndeksRepository;
 import org.raflab.studsluzba.repositories.UplataRepository;
+import org.raflab.studsluzba.utils.UplataUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,8 @@ public class UplataServis {
                 .orElseThrow(() -> new RuntimeException("StudentIndeks nije pronađen sa ID: " + request.getStudentIndeksId()));
 
         Uplata uplata = uplataMapper.toEntity(request, studentIndeks);
+        Double srednjiKurs = UplataUtils.getSrednjiKursEUR();
+        uplata.setSrednjiKurs(srednjiKurs);
         Uplata sacuvana = uplataRepository.save(uplata);
         return uplataMapper.toResponse(sacuvana);
     }
@@ -56,7 +59,6 @@ public class UplataServis {
         uplata.setStudentIndeks(studentIndeks);
         uplata.setDatumUplate(request.getDatumUplate());
         uplata.setIznosDinari(request.getIznosDinari());
-        uplata.setSrednjiKurs(request.getSrednjiKurs());
 
         Uplata sacuvana = uplataRepository.save(uplata);
         return uplataMapper.toResponse(sacuvana);
@@ -68,5 +70,20 @@ public class UplataServis {
             throw new RuntimeException("Uplata nije pronađena sa ID: " + id);
         }
         uplataRepository.deleteById(id);
+    }
+    public double getPreostalaUplataEUR(Long studentIndeksId) {
+        double sumaDinari = uplataRepository
+                .findByStudentIndeks_Id(studentIndeksId)
+                .stream()
+                .mapToDouble(u -> u.getIznosDinari() != null ? u.getIznosDinari() : 0)
+                .sum();
+
+
+        double kurs = UplataUtils.getSrednjiKursEUR();
+        Double skolirinaUeur=3000.0;
+
+        double preostaloEur = skolirinaUeur - (sumaDinari /kurs);
+
+        return preostaloEur;
     }
 }

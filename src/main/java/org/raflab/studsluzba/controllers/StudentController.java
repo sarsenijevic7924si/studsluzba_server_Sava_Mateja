@@ -22,6 +22,7 @@ import org.raflab.studsluzba.services.StudentIndeksService;
 import org.raflab.studsluzba.services.StudentPodaciService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +34,7 @@ public class StudentController {
 
 	private final StudentPodaciService studentPodaciService;
 	private final StudentIndeksService studentIndeksService;
-	private final SkolskaGodinaRepository SkolskaGodinaRepository;
-	private final SkolskaGodinaRepository skolskaGodinaRepository;
+
 
 	//POdaci
 	@PostMapping("/add")
@@ -121,7 +121,7 @@ public class StudentController {
 	{
 		return studentIndeksService.findStudentPodaciByIndeks(broj, godina, oznaka);
 	}
-	@PostMapping("/upis/{studentId}/{skolskaGodinaId}/{godinaKojaSeUpisuje}")
+	/*@PostMapping("/upis/{studentId}/{skolskaGodinaId}/{godinaKojaSeUpisuje}")
 	public UpisGodineResponse upisiStudentaNaGodinu(
 			@PathVariable Long studentId,
 			@PathVariable Long skolskaGodinaId,
@@ -131,6 +131,20 @@ public class StudentController {
 				.orElseThrow(() -> new RuntimeException("Školska godina nije pronađena"));
 
 		return studentPodaciService.upisiStudentaNaGodinu(studentId, skolskaGodina, godinaKojaSeUpisuje);
+	}*/
+	@GetMapping("/srednja")
+	public List<StudentIndeksResponse> getBySrednjaSkola(@RequestParam String naziv) {
+		return studentIndeksService.findStudentSrednja(naziv);
+	}
+	@GetMapping("/pretraga")
+	public Page<StudentPodaciResponse> pretragaStudenata(
+			@RequestParam(required = false) String ime,
+			@RequestParam(required = false) String prezime,
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size
+	) {
+		Pageable pageable = PageRequest.of(page, size);
+		return studentPodaciService.findStudentByImeiPrezime(ime, prezime, pageable);
 	}
 
 }

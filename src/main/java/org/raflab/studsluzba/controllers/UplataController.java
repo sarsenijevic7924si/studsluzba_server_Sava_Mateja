@@ -44,4 +44,9 @@ public class UplataController {
     public void       vdeleteUplata(@PathVariable Long id) {
         uplataService.deleteUplata(id);
     }
+
+    @GetMapping("/preostalo")
+    public double getPreostalaUplataEUR(@RequestParam Long studentIndeksId) {
+        return uplataService.getPreostalaUplataEUR(studentIndeksId);
+    }
 }

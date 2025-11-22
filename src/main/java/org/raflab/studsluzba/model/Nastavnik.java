@@ -28,7 +28,7 @@ public class Nastavnik {
 	 private String brojTelefona;
 	 private String adresa;
 
-	 @OneToMany(mappedBy = "nastavnik", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "nastavnik", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	 private Set<NastavnikZvanje> zvanja;
 	 
 	 private LocalDate datumRodjenja;

@@ -13,7 +13,6 @@ public class UplataMaper {
         uplata.setStudentIndeks(studentIndeks);
         uplata.setDatumUplate(request.getDatumUplate());
         uplata.setIznosDinari(request.getIznosDinari());
-        uplata.setSrednjiKurs(request.getSrednjiKurs());
         return uplata;
     }
 

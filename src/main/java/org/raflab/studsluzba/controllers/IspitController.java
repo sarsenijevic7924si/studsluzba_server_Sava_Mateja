@@ -57,20 +57,27 @@ public class IspitController {
         return ispitService.avg(ispitId);
     }
     @GetMapping("/polozeni")
-    public List<IspitResponse> getPolozeniByStudentIndeks(
+    public Page<IspitResponse> getPolozeniIspiti(
             @RequestParam int broj,
             @RequestParam int godina,
-            @RequestParam String oznaka
+            @RequestParam String oznaka,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
     ) {
-        return ispitService.finPolozeniIpsit(broj, godina, oznaka);
+        Pageable pageable = PageRequest.of(page, size);
+        return ispitService.finPolozeniIpsit(broj, godina, oznaka, pageable);
     }
+
     @GetMapping("/nepolozeni")
-    public List<IspitResponse> getNePolozeniByStudentIndeks(
+    public Page<IspitResponse> getNePolozeniIspiti(
             @RequestParam int broj,
             @RequestParam int godina,
-            @RequestParam String oznaka
+            @RequestParam String oznaka,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
     ) {
-        return ispitService.finNePolozeniIpsit(broj, godina, oznaka);
+        Pageable pageable = PageRequest.of(page, size);
+        return ispitService.finNePolozeniIpsit(broj, godina, oznaka, pageable);
     }
     @GetMapping("/rezultati/{ispitId}")
     public List<IzlazakNaIspitResponse> getRezultati(@PathVariable Long ispitId) {

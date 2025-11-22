@@ -9,14 +9,7 @@ import org.raflab.studsluzba.controllers.response.NastavnikResponse;
 import org.raflab.studsluzba.maperi.NastavnikMaper;
 import org.raflab.studsluzba.model.Nastavnik;
 import org.raflab.studsluzba.services.NastavnikService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -29,29 +22,39 @@ public class NastavnikController {
 	final NastavnikService nastavnikService;
 	
 	@PostMapping(path = "/add")
-	public Long addNewNastavnik(@RequestBody @Valid NastavnikRequest nastavnikRequest) {
-		Nastavnik nastavnik = nastavnikService.save(NastavnikMaper.toNastavnik(nastavnikRequest));
-		return nastavnik.getId();
+	public NastavnikResponse addNewNastavnik(@RequestBody @Valid NastavnikRequest nastavnikRequest) {
+		return nastavnikService.save(nastavnikRequest);
 	}
 	
 	@GetMapping(path = "/all")
 	public List<NastavnikResponse> getAllNastavnik() {
-		return NastavnikMaper.toNastavnikResponseList(nastavnikService.findAll());
+		return nastavnikService.findAll();
 	}
 
 	@GetMapping(path = "/{id}")
 	public NastavnikResponse getNastavnikById(@PathVariable Long id) {
-		Optional<Nastavnik> rez = nastavnikService.findById(id);
 
-		return rez.map(NastavnikMaper::toNastavnikResponse).orElse(null);
+
+		return nastavnikService.findById(id);
 	}
 	
 	@GetMapping(path = "/search")
-	public List<NastavnikResponse> search(
+	public NastavnikResponse search(
 			@RequestParam(required = false) String ime,
 			@RequestParam(required = false) String prezime){
 
-        return NastavnikMaper.toNastavnikResponseList(nastavnikService.findByImeAndPrezime(ime, prezime));
+        return nastavnikService.findByImeAndPrezime(ime, prezime);
+	}
+	@PatchMapping(path = "/update/{id}")
+	public NastavnikResponse updateNastavnik(
+			@PathVariable Long id,
+			@RequestBody @Valid NastavnikRequest nastavnikRequest) {
+		return nastavnikService.update(id, nastavnikRequest);
+	}
+
+	@DeleteMapping(path = "/delete/{id}")
+	public void deleteNastavnik(@PathVariable Long id) {
+		nastavnikService.delete(id);
 	}
 	
 }

@@ -23,4 +23,6 @@ public interface UplataRepository extends JpaRepository<Uplata,Long> {
 
     List<Uplata> findByIznosDinariGreaterThan(Double minIznos);
 
+
+
 }

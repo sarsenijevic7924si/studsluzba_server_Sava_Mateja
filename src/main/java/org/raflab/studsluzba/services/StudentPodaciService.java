@@ -7,10 +7,7 @@ import org.raflab.studsluzba.controllers.response.UpisGodineResponse;
 import org.raflab.studsluzba.maperi.StudentPodaciMaper;
 import org.raflab.studsluzba.maperi.StudijskiProgramMaper;
 import org.raflab.studsluzba.model.*;
-import org.raflab.studsluzba.repositories.SlusaPredmetRepository;
-import org.raflab.studsluzba.repositories.StudentIndeksRepository;
-import org.raflab.studsluzba.repositories.StudentPodaciRepository;
-import org.raflab.studsluzba.repositories.UpisGodineRepository;
+import org.raflab.studsluzba.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,10 +31,14 @@ public class StudentPodaciService {
 
     private final UpisGodineRepository upisGodineRepository;
     private final StudentPodaciRepository studentPodaciRepository;
+    private final SrednjaSkolaRepository srednjaSkolaRepository;
 
     @Transactional
     public StudentPodaciResponse saveStudentPodaci(StudentPodaciRequest request) {
-        StudentPodaci sp=StudentPodaciMaper.toEntity(request);
+        SrednjaSkola srednjaSkola=srednjaSkolaRepository.findById(request.getSrednjaId())
+                .orElseThrow(() -> new RuntimeException("Srednja nije pronađen"));
+
+        StudentPodaci sp=StudentPodaciMaper.toEntity(request,srednjaSkola);
         studentPodaciRepository.save(sp);
         return StudentPodaciMaper.toResponse(sp);
     }
@@ -137,6 +138,25 @@ public class StudentPodaciService {
         StudentPodaci student = studentPodaciRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student sa ID " + id + " ne postoji"));
         return StudentPodaciMaper.toResponse(student);
+    }
+    public Page<StudentPodaciResponse> findStudentByImeiPrezime(
+            String ime,
+            String prezime,
+            Pageable pageable) {
+
+        // Ako je null → ostavi null
+        // Ako nije null → ubaci %value%
+        String imeFilter = (ime == null || ime.isBlank())
+                ? null
+                : "%" + ime.toLowerCase() + "%";
+
+        String prezimeFilter = (prezime == null || prezime.isBlank())
+                ? null
+                : "%" + prezime.toLowerCase() + "%";
+
+        Page<StudentPodaci> page = studentPodaciRepository
+                .findStudentByImeiPrezime(imeFilter, prezimeFilter, pageable);
+        return page.map(StudentPodaciMaper::toResponse);
     }
 
 }

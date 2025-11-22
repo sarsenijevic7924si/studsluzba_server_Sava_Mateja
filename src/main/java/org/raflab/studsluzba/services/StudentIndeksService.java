@@ -197,4 +197,9 @@ public class StudentIndeksService {
 
         return StudentPodaciMaper.toResponse(indeks.getStudent());
     }
+    public List<StudentIndeksResponse> findStudentSrednja(String naziv) {
+        List<StudentIndeks> studentIndeks=studentIndeksRepository.findStudentBySrednjaSkola(naziv);
+        return studentIndeks.stream().map(StudentIndeksMaper::toResponse).collect(Collectors.toList());
+    }
+
 }

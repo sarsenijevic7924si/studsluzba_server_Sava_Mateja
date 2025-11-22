@@ -6,6 +6,8 @@ import org.raflab.studsluzba.controllers.response.*;
 import org.raflab.studsluzba.maperi.*;
 import org.raflab.studsluzba.model.*;
 import org.raflab.studsluzba.repositories.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -107,17 +109,14 @@ public class IspitService {
          return IspitMaper.toResponse(i);
 
     }
-    public List<IspitResponse> finPolozeniIpsit(int broj, int godina, String oznaka) {
-        return ispitRepository.findPolozniIpsit(broj, godina, oznaka)
-                .stream()
-                .map(IspitMaper::toResponse)
-                .collect(Collectors.toList());
+    public Page<IspitResponse> finPolozeniIpsit(int broj, int godina, String oznaka, Pageable pageable) {
+        return ispitRepository.findPolozniIpsit(broj, godina, oznaka, pageable)
+                .map(IspitMaper::toResponse);
     }
-    public List<IspitResponse> finNePolozeniIpsit(int broj, int godina, String oznaka) {
-        return ispitRepository.findNePolozniIpsit(broj, godina, oznaka)
-                .stream()
-                .map(IspitMaper::toResponse)
-                .collect(Collectors.toList());
+
+    public Page<IspitResponse> finNePolozeniIpsit(int broj, int godina, String oznaka, Pageable pageable) {
+        return ispitRepository.findNePolozniIpsit(broj, godina, oznaka, pageable)
+                .map(IspitMaper::toResponse);
     }
     public List<IzlazakNaIspitResponse>getSortiranaLista(Long ispitID)
     {

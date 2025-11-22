@@ -14,5 +14,5 @@ public class UplataRequest {
     private LocalDate datumUplate;
     @NotNull
     private Double iznosDinari;
-    private Double srednjiKurs;
+
 }

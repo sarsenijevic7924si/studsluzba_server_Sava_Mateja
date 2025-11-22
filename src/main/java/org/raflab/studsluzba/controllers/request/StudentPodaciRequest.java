@@ -42,6 +42,7 @@ public class StudentPodaciRequest {
     private String licnuKartuIzdao;
     private String mestoStanovanja;
     private String adresaStanovanja;   // u toku studija
+    private Long srednjaId;
     private double uspehSrednja;
     private double uspehPrijemni;
 }

@@ -60,4 +60,5 @@ public class SrednjaSkolaService {
                 .orElseThrow(() -> new RuntimeException("Srednja škola sa ID " + id + " nije pronađena."));
         return SrednjaSkolaMaper.toResponse(skola);
     }
+
 }

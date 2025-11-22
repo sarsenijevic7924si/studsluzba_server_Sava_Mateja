@@ -20,28 +20,22 @@ public class NastavnikZvanjeController {
 
     @PostMapping("/add")
     public NastavnikZvanjeResponse addZvanje(@RequestBody NastavnikZvanjeRequest request) {
-        NastavnikZvanje saved = zvanjeService.saveNastavnikZvanje(request);
-        return NastavnikZvanjeMaper.toResponse(saved);
+        return zvanjeService.saveNastavnikZvanje(request);
     }
 
     @GetMapping("/{id}")
     public NastavnikZvanjeResponse getZvanje(@PathVariable Long id) {
-        NastavnikZvanje zvanje = zvanjeService.findById(id);
-        return NastavnikZvanjeMaper.toResponse(zvanje);
+        return zvanjeService.findByIdResponse(id);
     }
 
     @GetMapping("/nastavnik/{nastavnikId}")
     public List<NastavnikZvanjeResponse> getAllForNastavnik(@PathVariable Long nastavnikId) {
-        List<NastavnikZvanje> zvanja = zvanjeService.findAllForNastavnik(nastavnikId);
-        return zvanja.stream()
-                .map(NastavnikZvanjeMaper::toResponse)
-                .collect(Collectors.toList());
+        return zvanjeService.findAllForNastavnikResponse(nastavnikId);
     }
 
     @PatchMapping("/update/{id}")
     public NastavnikZvanjeResponse updateZvanje(@PathVariable Long id, @RequestBody NastavnikZvanjeRequest request) {
-        NastavnikZvanje updated = zvanjeService.updateNastavnikZvanje(id, request);
-        return NastavnikZvanjeMaper.toResponse(updated);
+        return zvanjeService.updateNastavnikZvanje(id,request);
     }
 
     @DeleteMapping("/delete/{id}")
