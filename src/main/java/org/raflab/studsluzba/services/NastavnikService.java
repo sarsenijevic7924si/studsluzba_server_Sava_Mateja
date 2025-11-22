@@ -66,8 +66,10 @@ public class NastavnikService {
 
     public void delete(Long id) {
 
+        // 1) obriši sva zvanja vezana za nastavnika
+        nastavnikZvanjeServis.deleteAllForNastavnik(id);
+
+        // 2) tek onda obriši nastavnika
         nastavnikRepository.deleteById(id);
-
-
     }
 }

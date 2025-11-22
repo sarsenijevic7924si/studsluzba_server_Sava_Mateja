@@ -2,11 +2,17 @@ package org.raflab.studsluzba.controllers.request;
 
 import lombok.Data;
 
-import java.util.List;
-
+import javax.validation.constraints.NotNull;
 @Data
-public class DrziPredmetRequest {
 
-    List<DrziPredmetNewRequest> drziPredmet;
-    List<DrziPredmetNewRequest> newDrziPredmet;
+public class DrziPredmetRequest {
+    @NotNull
+    private Long predmetId;
+
+    @NotNull
+    private Long nastavnikId;
+
+    @NotNull
+    private Long skoslkagodinaId;
+
 }

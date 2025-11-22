@@ -15,19 +15,19 @@ public class UpisGodineController {
 
     private final UpisGodineService upisGodineService;
 
-    // CREATE
+
     @PostMapping("/add")
     public UpisGodineResponse create(@RequestBody UpisGodineRequest request) {
         return upisGodineService.create(request);
     }
 
-    // GET by id
+
     @GetMapping("/{id}")
     public UpisGodineResponse getById(@PathVariable Long id) {
         return upisGodineService.getById(id);
     }
 
-    // GET all
+
     @GetMapping("/all")
     public List<UpisGodineResponse> getAll() {
         return upisGodineService.getAll();

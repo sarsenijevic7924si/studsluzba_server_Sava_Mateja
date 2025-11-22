@@ -19,4 +19,5 @@ public interface NastavnikZvanjeRepository extends JpaRepository<NastavnikZvanje
     NastavnikZvanje findFirstByNastavnikIdAndAktivnoTrue(Long nastavnikId);
 
     boolean existsByNastavnikIdAndZvanjeAndAktivnoTrue(Long nastavnikId, String zvanje);
+    void deleteByNastavnikId(Long nastavnikId);
 }

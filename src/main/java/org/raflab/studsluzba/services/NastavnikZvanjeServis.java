@@ -69,4 +69,8 @@ public class NastavnikZvanjeServis {
                 .orElseThrow(() -> new IllegalArgumentException("NastavnikZvanje sa ID " + id + " ne postoji."));
         nastavnikZvanjeRepository.delete(existing);
     }
+    @Transactional
+    public void deleteAllForNastavnik(Long nastavnikId) {
+        nastavnikZvanjeRepository.deleteByNastavnikId(nastavnikId);
+    }
 }

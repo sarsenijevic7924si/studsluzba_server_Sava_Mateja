@@ -18,38 +18,31 @@ public class GrupaController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<GrupaResponse> createGrupa(@RequestBody GrupaRequest request) {
-        if (request.getStudijskiProgramID() == null) {
-            throw new RuntimeException("Morate uneti studijskiProgramId!");
-        }
-        GrupaResponse response = grupaService.createGrupa(request);
-        return ResponseEntity.ok(response);
+    public  GrupaResponse createGrupa(@RequestBody GrupaRequest request) {
+
+        return grupaService.createGrupa(request);
     }
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<GrupaResponse>> getAllGrupe() {
-        List<GrupaResponse> grupe = grupaService.getAllGrupe();
-        return ResponseEntity.ok(grupe);
+    public List<GrupaResponse> getAllGrupe() {
+        return grupaService.getAllGrupe();
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<GrupaResponse> getGrupaById(@PathVariable Long id) {
-        GrupaResponse response = grupaService.getGrupaById(id);
-        return ResponseEntity.ok(response);
+    public GrupaResponse getGrupaById(@PathVariable Long id) {
+        return grupaService.getGrupaById(id);
     }
 
 
-    @PutMapping("/udpate/{id}")
-    public ResponseEntity<GrupaResponse> updateGrupa(@PathVariable Long id, @RequestBody GrupaRequest request) {
-        GrupaResponse response = grupaService.updateGrupa(id, request);
-        return ResponseEntity.ok(response);
+    @PatchMapping("/udpate/{id}")
+    public GrupaResponse updateGrupa(@PathVariable Long id, @RequestBody GrupaRequest request) {
+        return grupaService.updateGrupa(id, request);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteGrupa(@PathVariable Long id) {
+    public void deleteGrupa(@PathVariable Long id) {
         grupaService.deleteGrupa(id);
-        return ResponseEntity.noContent().build();
     }
 }

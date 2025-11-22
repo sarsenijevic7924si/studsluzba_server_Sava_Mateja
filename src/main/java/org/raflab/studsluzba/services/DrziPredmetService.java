@@ -1,22 +1,22 @@
 package org.raflab.studsluzba.services;
 
 import lombok.RequiredArgsConstructor;
-import org.raflab.studsluzba.controllers.request.DrziPredmetNewRequest;
 import org.raflab.studsluzba.controllers.request.DrziPredmetRequest;
+import org.raflab.studsluzba.controllers.response.DrziPredmetResponse;
+import org.raflab.studsluzba.maperi.DrziPredmetMaper;
 import org.raflab.studsluzba.model.DrziPredmet;
 import org.raflab.studsluzba.model.Nastavnik;
 import org.raflab.studsluzba.model.Predmet;
+import org.raflab.studsluzba.model.SkolskaGodina;
 import org.raflab.studsluzba.repositories.DrziPredmetRepository;
 import org.raflab.studsluzba.repositories.NastavnikRepository;
 import org.raflab.studsluzba.repositories.PredmetRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.raflab.studsluzba.repositories.SkolskaGodinaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -25,62 +25,73 @@ public class DrziPredmetService {
     final DrziPredmetRepository drziPredmetRepository;
     final PredmetRepository predmetRepository;
     final NastavnikRepository nastavnikRepository;
+    final SkolskaGodinaRepository skolskaGodinaRepository;
 
-    //ako sve prođe dobro, Spring automatski uradi commit (snimi promene u bazu);
-    //ako se desi izuzetak, Spring automatski uradi rollback (poništi sve promene)
+
     @Transactional
-    public void saveDrziPredmet(DrziPredmetRequest request) {
+    public DrziPredmetResponse saveDrziPredmet(DrziPredmetRequest request) {
 
-        List<DrziPredmetNewRequest> drziPredmetList = request.getDrziPredmet();
-        List<DrziPredmetNewRequest> newDrziPredmetList = request.getNewDrziPredmet();
+        Predmet predmet = predmetRepository.findById(request.getPredmetId())
+                .orElseThrow(() -> new RuntimeException("Predmet ne postoji"));
 
-        // izvuci sve predmete iz baze po predmetId
-        Map<Long, Predmet> predmetMap = predmetRepository.findByIdIn(
-                drziPredmetList.stream().map(DrziPredmetNewRequest::getPredmetId).collect(Collectors.toList())
-        ).stream().collect(Collectors.toMap(Predmet::getId, Function.identity()));
+        Nastavnik nastavnik = nastavnikRepository.findById(request.getNastavnikId())
+                .orElseThrow(() -> new RuntimeException("Nastavnik ne postoji"));
+        SkolskaGodina skolskaGodina=skolskaGodinaRepository.findById(request.getSkoslkagodinaId())
+                .orElseThrow(() -> new RuntimeException("Nema skolske godine"));
 
-        // izvuci sve predmete iz baze po predmetNaziv za nove unose
-        Map<String, Predmet> newPredmetMap = predmetRepository.findByNazivIn(
-                newDrziPredmetList.stream().map(DrziPredmetNewRequest::getPredmetNaziv).collect(Collectors.toList())
-        ).stream().collect(Collectors.toMap(Predmet::getNaziv, Function.identity()));
+        DrziPredmet dp = DrziPredmetMaper.toEntity(request, predmet, nastavnik,skolskaGodina);
 
-        // izvuci sve nastavnike iz baze po email
-        List<String> allEmails = Stream.concat(
-                drziPredmetList.stream().map(DrziPredmetNewRequest::getEmailNastavnik),
-                newDrziPredmetList.stream().map(DrziPredmetNewRequest::getEmailNastavnik)
-        ).distinct().collect(Collectors.toList());
+        return DrziPredmetMaper.toResponse(drziPredmetRepository.save(dp));
+    }
 
-        Map<String, Nastavnik> nastavnikMap = nastavnikRepository.findByEmailIn(allEmails)
-                .stream().collect(Collectors.toMap(Nastavnik::getEmail, Function.identity()));
+    @Transactional(readOnly = true)
+    public DrziPredmetResponse findById(Long id) {
+        DrziPredmet dp = drziPredmetRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("DrziPredmet ne postoji"));
 
-        // kreiranje liste DrziPredmet objekata za cuvanje
-        List<DrziPredmet> drziPredmetEntities = new ArrayList<>();
+        return DrziPredmetMaper.toResponse(dp);
+    }
 
-        for (DrziPredmetNewRequest drziPredmetRequest : drziPredmetList) {
-            Predmet predmet = predmetMap.get(drziPredmetRequest.getPredmetId());
-            Nastavnik nastavnik = nastavnikMap.get(drziPredmetRequest.getEmailNastavnik());
+    @Transactional(readOnly = true)
+    public List<DrziPredmetResponse> findAll() {
 
-            if (predmet != null && nastavnik != null) {
-                DrziPredmet drziPredmet = new DrziPredmet();
-                drziPredmet.setPredmet(predmet);
-                drziPredmet.setNastavnik(nastavnik);
-                drziPredmetEntities.add(drziPredmet);
-            }
+        Iterable<DrziPredmet> drziPredmetiIterable = drziPredmetRepository.findAll();
+
+        List<DrziPredmet> drziPredmeti = new ArrayList<>();
+        drziPredmetiIterable.forEach(drziPredmeti::add);
+
+        return drziPredmeti
+                .stream()
+                .map(DrziPredmetMaper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public DrziPredmetResponse update(Long id, DrziPredmetRequest req) {
+
+        DrziPredmet dp = drziPredmetRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("DrziPredmet ne postoji"));
+
+        Predmet predmet = predmetRepository.findById(req.getPredmetId())
+                .orElseThrow(() -> new RuntimeException("Predmet ne postoji"));
+
+        Nastavnik nastavnik = nastavnikRepository.findById(req.getNastavnikId())
+                .orElseThrow(() -> new RuntimeException("Nastavnik ne postoji"));
+        SkolskaGodina skolskaGodina=skolskaGodinaRepository.findById(req.getSkoslkagodinaId())
+                .orElseThrow(() -> new RuntimeException("Nema skolske godine"));
+
+        dp.setPredmet(predmet);
+        dp.setNastavnik(nastavnik);
+        dp.setSkolskaGodina(skolskaGodina);
+
+        return DrziPredmetMaper.toResponse(drziPredmetRepository.save(dp));
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        if (!drziPredmetRepository.existsById(id)) {
+            throw new RuntimeException("DrziPredmet ne postoji");
         }
-
-        for (DrziPredmetNewRequest newDrziPredmetRequest : newDrziPredmetList) {
-            Predmet predmet = newPredmetMap.get(newDrziPredmetRequest.getPredmetNaziv());
-            Nastavnik nastavnik = nastavnikMap.get(newDrziPredmetRequest.getEmailNastavnik());
-
-            if (predmet != null && nastavnik != null) {
-                DrziPredmet drziPredmet = new DrziPredmet();
-                drziPredmet.setPredmet(predmet);
-                drziPredmet.setNastavnik(nastavnik);
-                drziPredmetEntities.add(drziPredmet);
-            }
-        }
-        System.out.println("BROJ DrziPredmet za cuvanje: " + drziPredmetEntities.size());
-
-        drziPredmetRepository.saveAll(drziPredmetEntities);
+        drziPredmetRepository.deleteById(id);
     }
 }
