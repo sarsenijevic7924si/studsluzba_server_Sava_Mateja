@@ -2,10 +2,7 @@ package org.raflab.studsluzba.services;
 
 import lombok.AllArgsConstructor;
 import org.raflab.studsluzba.controllers.request.IspitRequest;
-import org.raflab.studsluzba.controllers.response.IspitResponse;
-import org.raflab.studsluzba.controllers.response.PolozenPredmetResponse;
-import org.raflab.studsluzba.controllers.response.SrednjaSkolaResponse;
-import org.raflab.studsluzba.controllers.response.StudentIndeksResponse;
+import org.raflab.studsluzba.controllers.response.*;
 import org.raflab.studsluzba.maperi.*;
 import org.raflab.studsluzba.model.*;
 import org.raflab.studsluzba.repositories.*;
@@ -22,7 +19,10 @@ public class IspitService {
     private final IspitRepository ispitRepository;
     private final IspitniRokRepository ispitniRokRepository;
     private final NastavnikRepository nastavnikRepository;
+    private final IzlazakNaIspitRepository izlazakNaIspitRepository;
     private final PredmetRepository predmetRepository;
+    private final StudentPredispitniRepository studentPredispitniRepository;
+    private final StudentPredispitniRepository predispitniRepository;
     public IspitResponse saveIspit(IspitRequest request) {
         Nastavnik nastavnik = nastavnikRepository.findById(request.getNastavnikId())
                 .orElseThrow(() -> new RuntimeException("Nastavnik nije pronađen"));
@@ -118,5 +118,44 @@ public class IspitService {
                 .stream()
                 .map(IspitMaper::toResponse)
                 .collect(Collectors.toList());
+    }
+    public List<IzlazakNaIspitResponse>getSortiranaLista(Long ispitID)
+    {
+        List<IzlazakNaIspit>lista=izlazakNaIspitRepository.sortiraniRezultati(ispitID);
+        return lista.stream().map(i -> {
+
+            var prijava = i.getPrijava();
+            var student = prijava.getStudentIndeks();
+            var predmet = prijava.getIspit().getPredmet();
+
+            // sabiranje predispitnih poena
+            double predispitni = Optional.ofNullable(
+                    predispitniRepository.sumPoeniForStudentAndPredmet(student.getId(), predmet.getId())
+            ).orElse(0.0);
+
+            int ispitni = Optional.ofNullable(i.getPoeniSaIspita()).orElse(0);
+
+            IzlazakNaIspitResponse r = new IzlazakNaIspitResponse();
+
+            r.setId(i.getId());
+            r.setPoeniSaIspita(ispitni);
+            r.setPredispitniPoeni(predispitni);
+            r.setUkupniPoeni((int) (predispitni + ispitni));
+
+            r.setPonistio(i.getPonistio());
+            r.setNapomena(i.getNapomena());
+            r.setPrijavaIspitaID(prijava.getId());
+            r.setStudentId(student.getId());
+
+            // podaci za sortiranje / prikaz
+            r.setStudProgram(student.getStudijskiProgram().getOznaka());
+            r.setGodinaUpisa(student.getGodina());
+            r.setBrojIndeksa(student.getBroj());
+
+            return r;
+        }).collect(Collectors.toList());
+    }
+    public long brojPolaganja(Long studentId, Long predmetId) {
+        return izlazakNaIspitRepository.countByStudentAndPredmet(studentId, predmetId);
     }
 }

@@ -72,4 +72,13 @@ public class IspitController {
     ) {
         return ispitService.finNePolozeniIpsit(broj, godina, oznaka);
     }
+    @GetMapping("/rezultati/{ispitId}")
+    public List<IzlazakNaIspitResponse> getRezultati(@PathVariable Long ispitId) {
+        return ispitService.getSortiranaLista(ispitId);
+    }
+    @GetMapping("/broj-polaganja/{studentId}/{predmetId}")
+    public long getBrojPolaganja(@PathVariable Long studentId,
+                                 @PathVariable Long predmetId) {
+        return ispitService.brojPolaganja(studentId, predmetId);
+    }
 }

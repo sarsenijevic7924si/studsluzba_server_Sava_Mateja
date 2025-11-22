@@ -7,11 +7,23 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 @Component
 public class Seeder implements CommandLineRunner {
-
+    @Autowired
+    private IspitRepository ispitRepository;
+    @Autowired
+    private IspitniRokRepository ispitniRokRepository;
+    @Autowired
+    private PrijavaIspitaRepository prijavaIspitaRepository;
+    @Autowired
+    private SkolskaGodinaRepository skolskaGodinaRepository;
+    @Autowired
+    private PredIspitnaObavezaRepository predispitneObavezeRepository;
+    @Autowired
+    private IzlazakNaIspitRepository izlazakNaIspitRepository;
     @Autowired
     private StudijskiProgramRepository studijskiProgramRepository;
     @Autowired
@@ -142,6 +154,45 @@ public class Seeder implements CommandLineRunner {
             g.setStudijskiProgram(spList.get(i - 1));
             g.setPredmeti(Collections.singletonList(predmetList.get(i - 1)));
             grupaRepository.save(g);
+        }
+        // --- 1. Kreiranje ispita i ispitiRok ---
+        IspitniRok rok1 = new IspitniRok();
+        rok1.setPocetakRoka(LocalDate.of(2025, 6, 1));
+        rok1.setZavrsetakRoka(LocalDate.of(2025, 6, 30));
+        ispitniRokRepository.save(rok1);
+
+        List<Ispit> ispiti = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Ispit ispit = new Ispit();
+            ispit.setDatumOdrzavanja(LocalDate.of(2025, 6, 10 + i));
+            ispit.setVremePocetka(LocalTime.of(9 + i, 0));
+            ispit.setJeZakljucen(false);
+            ispit.setNastavnik(nastavnikList.get(i));
+            ispit.setPredmet(predmetList.get(i));
+            ispit.setIspitniRok(rok1);
+            ispiti.add(ispitRepository.save(ispit));
+        }
+
+        // --- 2. Kreiranje prijava studenata na ispit ---
+        List<PrijavaIspita> prijave = new ArrayList<>();
+        for (StudentIndeks si : indeksList) {
+            for (Ispit ispit : ispiti) {
+                PrijavaIspita prijava = new PrijavaIspita();
+                prijava.setStudentIndeks(si);
+                prijava.setIspit(ispit);
+                prijave.add(prijavaIspitaRepository.save(prijava));
+            }
+        }
+
+        // --- 3. Kreiranje izlazaka na ispit ---
+        for (PrijavaIspita prijava : prijave) {
+            IzlazakNaIspit izlazak = new IzlazakNaIspit();
+            izlazak.setPrijava(prijava);
+            izlazak.setPoeniSaIspita((int)(Math.random() * 51 + 50)); // nasumično 50-100 poena
+            izlazak.setUkupniPoeni(izlazak.getPoeniSaIspita()); // predispitne poene dodaćeš kasnije
+            izlazak.setPonistio(false);
+            izlazak.setNapomena("");
+            izlazakNaIspitRepository.save(izlazak);
         }
     }
 }

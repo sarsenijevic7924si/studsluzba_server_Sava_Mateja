@@ -6,9 +6,14 @@ import lombok.Data;
 public class IzlazakNaIspitResponse {
     private Long id;
     private Integer poeniSaIspita;
+    private Double predispitniPoeni;
     private Integer ukupniPoeni;
     private Boolean ponistio;
     private String napomena;
     private Long prijavaIspitaID;
-    private Long stundetId;
+    private Long studentId;
+
+    private String studProgram;
+    private Integer godinaUpisa;
+    private Integer brojIndeksa;
 }

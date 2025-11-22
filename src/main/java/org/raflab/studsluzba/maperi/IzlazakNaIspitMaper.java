@@ -24,7 +24,7 @@ public class IzlazakNaIspitMaper {
         response.setUkupniPoeni(izlazakNaIspit.getUkupniPoeni());
         if (izlazakNaIspit.getPrijava() != null) {
             response.setPrijavaIspitaID(izlazakNaIspit.getPrijava().getId());
-            response.setStundetId(izlazakNaIspit.getPrijava().getStudentIndeks().getId());
+            response.setStudentId(izlazakNaIspit.getPrijava().getStudentIndeks().getId());
         }
 
         return response;
