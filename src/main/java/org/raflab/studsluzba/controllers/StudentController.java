@@ -121,7 +121,8 @@ public class StudentController {
 	{
 		return studentIndeksService.findStudentPodaciByIndeks(broj, godina, oznaka);
 	}
-	/*@PostMapping("/upis/{studentId}/{skolskaGodinaId}/{godinaKojaSeUpisuje}")
+	/*
+	@PostMapping("/upis/{studentId}/{skolskaGodinaId}/{godinaKojaSeUpisuje}")
 	public UpisGodineResponse upisiStudentaNaGodinu(
 			@PathVariable Long studentId,
 			@PathVariable Long skolskaGodinaId,
