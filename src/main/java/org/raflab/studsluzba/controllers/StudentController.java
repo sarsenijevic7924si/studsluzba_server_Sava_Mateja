@@ -10,10 +10,14 @@ import org.raflab.studsluzba.controllers.request.StudijskiProgramReqest;
 import org.raflab.studsluzba.controllers.response.StudentIndeksResponse;
 import org.raflab.studsluzba.controllers.response.StudentPodaciResponse;
 import org.raflab.studsluzba.controllers.response.StudijskiProgramResponse;
+import org.raflab.studsluzba.controllers.response.UpisGodineResponse;
 import org.raflab.studsluzba.maperi.StudentIndeksMaper;
 import org.raflab.studsluzba.maperi.StudentPodaciMaper;
+import org.raflab.studsluzba.model.SkolskaGodina;
 import org.raflab.studsluzba.model.StudentIndeks;
 import org.raflab.studsluzba.model.StudentPodaci;
+import org.raflab.studsluzba.model.UpisGodine;
+import org.raflab.studsluzba.repositories.SkolskaGodinaRepository;
 import org.raflab.studsluzba.services.StudentIndeksService;
 import org.raflab.studsluzba.services.StudentPodaciService;
 import org.springframework.data.domain.Page;
@@ -29,6 +33,8 @@ public class StudentController {
 
 	private final StudentPodaciService studentPodaciService;
 	private final StudentIndeksService studentIndeksService;
+	private final SkolskaGodinaRepository SkolskaGodinaRepository;
+	private final SkolskaGodinaRepository skolskaGodinaRepository;
 
 	//POdaci
 	@PostMapping("/add")
@@ -115,6 +121,16 @@ public class StudentController {
 	{
 		return studentIndeksService.findStudentPodaciByIndeks(broj, godina, oznaka);
 	}
+	@PostMapping("/upis/{studentId}/{skolskaGodinaId}/{godinaKojaSeUpisuje}")
+	public UpisGodineResponse upisiStudentaNaGodinu(
+			@PathVariable Long studentId,
+			@PathVariable Long skolskaGodinaId,
+			@PathVariable Integer godinaKojaSeUpisuje
+	) {
+		SkolskaGodina skolskaGodina = skolskaGodinaRepository.findById(skolskaGodinaId)
+				.orElseThrow(() -> new RuntimeException("Školska godina nije pronađena"));
 
+		return studentPodaciService.upisiStudentaNaGodinu(studentId, skolskaGodina, godinaKojaSeUpisuje);
+	}
 
 }

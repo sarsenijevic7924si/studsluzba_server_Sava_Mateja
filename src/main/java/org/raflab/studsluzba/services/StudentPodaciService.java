@@ -3,15 +3,21 @@ package org.raflab.studsluzba.services;
 import lombok.AllArgsConstructor;
 import org.raflab.studsluzba.controllers.request.StudentPodaciRequest;
 import org.raflab.studsluzba.controllers.response.StudentPodaciResponse;
+import org.raflab.studsluzba.controllers.response.UpisGodineResponse;
 import org.raflab.studsluzba.maperi.StudentPodaciMaper;
 import org.raflab.studsluzba.maperi.StudijskiProgramMaper;
-import org.raflab.studsluzba.model.StudentPodaci;
+import org.raflab.studsluzba.model.*;
+import org.raflab.studsluzba.repositories.SlusaPredmetRepository;
+import org.raflab.studsluzba.repositories.StudentIndeksRepository;
 import org.raflab.studsluzba.repositories.StudentPodaciRepository;
+import org.raflab.studsluzba.repositories.UpisGodineRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,6 +25,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Service
 public class StudentPodaciService {
+    @Autowired
+    private StudentIndeksRepository studentIndeksRepository;
+
+    @Autowired
+    private SlusaPredmetRepository slusaPredmetRepository;
+
+
+    private final UpisGodineRepository upisGodineRepository;
     private final StudentPodaciRepository studentPodaciRepository;
 
     @Transactional
@@ -27,6 +41,47 @@ public class StudentPodaciService {
         studentPodaciRepository.save(sp);
         return StudentPodaciMaper.toResponse(sp);
     }
+    @Transactional
+    public UpisGodineResponse upisiStudentaNaGodinu(Long studentId,
+                                                    SkolskaGodina skolskaGodina,
+                                                    Integer godinaKojaSeUpisuje) {
+
+        // 1. Pronađi indeks
+        StudentIndeks indeks = studentIndeksRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student nije pronađen"));
+
+        // 2. Kreiraj upis
+        UpisGodine entitetUpis = new UpisGodine();
+        entitetUpis.setStudentIndeks(indeks);
+        entitetUpis.setSkolskaGodina(skolskaGodina);
+        entitetUpis.setGodinaKojaSeUpisuje(godinaKojaSeUpisuje);
+        entitetUpis.setDatumUpisa(LocalDate.now());
+        entitetUpis.setNapomena("Automatski upis");
+
+        upisGodineRepository.save(entitetUpis);
+
+        // 3. Preuzmi stare predmete i kopiraj ih u novu godinu
+        List<SlusaPredmet> stariPredmeti = slusaPredmetRepository.findByStudentIndeks(indeks);
+
+        for (SlusaPredmet sp : stariPredmeti) {
+            SlusaPredmet noviSP = new SlusaPredmet();
+            noviSP.setStudentIndeks(indeks);
+            noviSP.setDrziPredmet(sp.getDrziPredmet());
+            slusaPredmetRepository.save(noviSP);
+        }
+
+        // 4. Formiraj response
+        UpisGodineResponse upisResponse = new UpisGodineResponse();
+        upisResponse.setId(entitetUpis.getId());
+        upisResponse.setStudentIndeksId(indeks.getId());
+        upisResponse.setSkolskaGodinaId(skolskaGodina.getId());
+        upisResponse.setGodinaKojaSeUpisuje(entitetUpis.getGodinaKojaSeUpisuje());
+        upisResponse.setDatumUpisa(entitetUpis.getDatumUpisa());
+        upisResponse.setNapomena(entitetUpis.getNapomena());
+
+        return upisResponse;
+    }
+
 
 
 
