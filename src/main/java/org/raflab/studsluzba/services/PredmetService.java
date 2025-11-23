@@ -83,15 +83,19 @@ public class PredmetService {
                 .map(PredmetMaper::toResponse)
                 .collect(Collectors.toList());
     }
-    public List<PredmetResponse> getNePolozeniPredmeti(int broj, int godina, String oznaka)
-    {
-        SlusaPredmet sp= slusaPredmetRepository.getSlusaPredmetForIndeksCeoAktivnaGodina(broj,godina,oznaka);
+    public List<PredmetResponse> getNePolozeniPredmeti(int broj, int godina, String oznaka) {
 
-        return slusaPredmetRepository.getSlusaPredmetByPredmet(sp.getId())
-                .stream()
+        List<SlusaPredmet> spList =
+                slusaPredmetRepository.getSlusaPredmetForIndeksCeoAktivnaGodinalsit(broj, godina, oznaka);
+
+        return spList.stream()
+                .flatMap(sp -> slusaPredmetRepository
+                        .getSlusaPredmetByPredmet(sp.getId()).stream())
                 .map(PredmetMaper::toResponse)
                 .collect(Collectors.toList());
     }
+
+
     public PredmetResponse FindById(Long id)
     {
         Predmet p=predmetRepository.findById(id)

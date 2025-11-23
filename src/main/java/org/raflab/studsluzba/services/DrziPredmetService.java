@@ -36,7 +36,8 @@ public class DrziPredmetService {
 
         Nastavnik nastavnik = nastavnikRepository.findById(request.getNastavnikId())
                 .orElseThrow(() -> new RuntimeException("Nastavnik ne postoji"));
-        SkolskaGodina skolskaGodina=skolskaGodinaRepository.findById(request.getSkoslkagodinaId())
+        SkolskaGodina skolskaGodina = skolskaGodinaRepository
+                .findById(request.getSkolskaGodinaId())
                 .orElseThrow(() -> new RuntimeException("Nema skolske godine"));
 
         DrziPredmet dp = DrziPredmetMaper.toEntity(request, predmet, nastavnik,skolskaGodina);
@@ -77,7 +78,8 @@ public class DrziPredmetService {
 
         Nastavnik nastavnik = nastavnikRepository.findById(req.getNastavnikId())
                 .orElseThrow(() -> new RuntimeException("Nastavnik ne postoji"));
-        SkolskaGodina skolskaGodina=skolskaGodinaRepository.findById(req.getSkoslkagodinaId())
+        SkolskaGodina skolskaGodina = skolskaGodinaRepository
+                .findById(req.getSkolskaGodinaId())
                 .orElseThrow(() -> new RuntimeException("Nema skolske godine"));
 
         dp.setPredmet(predmet);

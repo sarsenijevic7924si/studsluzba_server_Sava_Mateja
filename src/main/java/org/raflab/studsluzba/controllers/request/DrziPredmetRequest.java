@@ -13,6 +13,6 @@ public class DrziPredmetRequest {
     private Long nastavnikId;
 
     @NotNull
-    private Long skoslkagodinaId;
+    private Long skolskaGodinaId;
 
 }

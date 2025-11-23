@@ -39,8 +39,11 @@ public interface SlusaPredmetRepository extends JpaRepository<SlusaPredmet, Long
 	SlusaPredmet getSlusaPredmetByPredmetandIndeks(Long indeks,Long predmet);
 	@Query("SELECT sp.drziPredmet.predmet FROM SlusaPredmet sp WHERE sp.id=:predmetId ")
 	List<Predmet> getSlusaPredmetByPredmet(Long predmetId);
+
 	List<SlusaPredmet> findByStudentIndeks(StudentIndeks indeks);
 
+	@Query("select sp from SlusaPredmet sp where sp.studentIndeks.broj=:broj and sp.studentIndeks.godina=:godina and sp.studentIndeks.studProgramOznaka=:studProgramOznaka")
+	List<SlusaPredmet> getSlusaPredmetForIndeksCeoAktivnaGodinalsit(int broj, int godina, String studProgramOznaka);
 	
 
 }
