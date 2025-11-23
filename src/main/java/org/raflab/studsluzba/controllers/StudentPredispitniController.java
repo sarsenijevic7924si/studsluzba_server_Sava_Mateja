@@ -38,7 +38,7 @@ public class StudentPredispitniController {
         return service.update(id, request);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable Long id) {
         service.deleteById(id);
     }

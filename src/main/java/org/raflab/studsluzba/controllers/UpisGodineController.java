@@ -37,7 +37,7 @@ public class UpisGodineController {
 
 
     // DELETE
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public boolean delete(@PathVariable Long id) {
         return upisGodineService.delete(id);
     }
