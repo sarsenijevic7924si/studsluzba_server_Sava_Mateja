@@ -52,7 +52,7 @@ public class StudentPodaciService {
         StudentIndeks indeks = studentIndeksRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student nije pronađen"));
 
-        // 2. Kreiraj upis
+
         UpisGodine entitetUpis = new UpisGodine();
         entitetUpis.setStudentIndeks(indeks);
         entitetUpis.setSkolskaGodina(skolskaGodina);
@@ -62,7 +62,7 @@ public class StudentPodaciService {
 
         upisGodineRepository.save(entitetUpis);
 
-        // 3. Preuzmi stare predmete i kopiraj ih u novu godinu
+
         List<SlusaPredmet> stariPredmeti = slusaPredmetRepository.findByStudentIndeks(indeks);
 
         for (SlusaPredmet sp : stariPredmeti) {
@@ -72,7 +72,7 @@ public class StudentPodaciService {
             slusaPredmetRepository.save(noviSP);
         }
 
-        // 4. Formiraj response
+
         UpisGodineResponse upisResponse = new UpisGodineResponse();
         upisResponse.setId(entitetUpis.getId());
         upisResponse.setStudentIndeksId(indeks.getId());

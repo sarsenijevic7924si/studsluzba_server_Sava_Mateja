@@ -9,12 +9,12 @@ import java.util.List;
 
 @Repository
 public interface GrupaRepository extends JpaRepository<Grupa, Long> {
-    // Sve grupe koje pripadaju određenom studijskom programu
+
     List<Grupa> findByStudijskiProgram(StudijskiProgram studijskiProgram);
 
-    // Sve grupe po ID-u studijskog programa
+
     List<Grupa> findByStudijskiProgram_Id(Long studijskiProgramId);
 
-    // Pretraga grupe koja sadrži predmet po ID-u
+
     List<Grupa> findByPredmeti_Id(Long predmetId);
 }

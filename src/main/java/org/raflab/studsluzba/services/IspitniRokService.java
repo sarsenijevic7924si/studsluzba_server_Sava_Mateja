@@ -54,7 +54,7 @@ public class IspitniRokService {
         IspitniRok rok = ispitniRokRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ispitni rok nije pronađen"));
 
-        // ažuriranje polja
+
         rok.setPocetakRoka(request.getPocetakRoka());
         rok.setZavrsetakRoka(request.getZavrsetakRoka());
 

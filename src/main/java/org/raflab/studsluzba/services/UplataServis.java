@@ -3,6 +3,7 @@ package org.raflab.studsluzba.services;
 import lombok.AllArgsConstructor;
 import org.raflab.studsluzba.controllers.request.UplataRequest;
 import org.raflab.studsluzba.controllers.response.UplataResponse;
+import org.raflab.studsluzba.controllers.response.VracaSumuResponse;
 import org.raflab.studsluzba.maperi.UplataMaper;
 import org.raflab.studsluzba.model.StudentIndeks;
 import org.raflab.studsluzba.model.Uplata;
@@ -21,7 +22,7 @@ public class UplataServis {
     private final StudentIndeksRepository studentIndeksRepository;
     private final UplataMaper uplataMapper;
 
-    // CREATE
+
     public UplataResponse createUplata(UplataRequest request) {
         StudentIndeks studentIndeks = studentIndeksRepository.findById(request.getStudentIndeksId())
                 .orElseThrow(() -> new RuntimeException("StudentIndeks nije pronađen sa ID: " + request.getStudentIndeksId()));
@@ -33,7 +34,7 @@ public class UplataServis {
         return uplataMapper.toResponse(sacuvana);
     }
 
-    // READ ALL
+
     public List<UplataResponse> getAllUplate() {
         return uplataRepository.findAll()
                 .stream()
@@ -71,7 +72,7 @@ public class UplataServis {
         }
         uplataRepository.deleteById(id);
     }
-    public double getPreostalaUplataEUR(Long studentIndeksId) {
+    public VracaSumuResponse getPreostalaUplataEUR(Long studentIndeksId) {
         double sumaDinari = uplataRepository
                 .findByStudentIndeks_Id(studentIndeksId)
                 .stream()
@@ -83,7 +84,11 @@ public class UplataServis {
         Double skolirinaUeur=3000.0;
 
         double preostaloEur = skolirinaUeur - (sumaDinari /kurs);
+        VracaSumuResponse vracaSumuResponse=new VracaSumuResponse();
+        vracaSumuResponse.setEvri(preostaloEur);
+        double preosaloDin=preostaloEur*kurs;
+        vracaSumuResponse.setDinari(preosaloDin);
 
-        return preostaloEur;
+        return vracaSumuResponse;
     }
 }

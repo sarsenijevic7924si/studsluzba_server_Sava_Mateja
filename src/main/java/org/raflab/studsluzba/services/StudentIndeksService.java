@@ -95,53 +95,53 @@ public class StudentIndeksService {
     }
 
 
-    /* ---------------------- SAVE ---------------------- */
+
 
     @Transactional
     public StudentIndeksResponse saveIndeks(StudentIndeksRequest request) {
-        // Mapiranje request -> entity
+
         StudentIndeks indeks = StudentIndeksMaper.toEntity(request);
 
-        // Postavljanje sledećeg broja indeksa
+
         int nextBroj = findBroj(request.getGodina(), request.getStudProgramOznaka());
         indeks.setBroj(nextBroj);
 
-        // Dohvatanje studenta
+
         StudentPodaci student = studentPodaciRepository.findById(request.getStudentId())
                 .orElseThrow(() -> new RuntimeException("StudentPodaci not found with id " + request.getStudentId()));
         indeks.setStudent(student);
 
-        // Dohvatanje studijskog programa
+
         StudijskiProgram studProgram = studijskiProgramRepository.findByOznaka(request.getStudProgramOznaka())
                 .stream().findFirst()
                 .orElseThrow(() -> new RuntimeException("StudijskiProgram not found with oznaka: " + request.getStudProgramOznaka()));
         indeks.setStudijskiProgram(studProgram);
 
-        // Ako nije postavljeno vaziOd, postavi na danas
+
         if (indeks.getVaziOd() == null) {
             indeks.setVaziOd(java.time.LocalDate.now());
         }
 
-        // Čuvanje u repo
+
        studentIndeksRepository.save(indeks);
         return StudentIndeksMaper.toResponse(indeks);
     }
 
 
-    /* ---------------------- PATCH / UPDATE ---------------------- */
+
 
     @Transactional
     public StudentIndeksResponse updateIndeks(Long id, StudentIndeksRequest request) {
         StudentIndeks existing = studentIndeksRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Indeks ne postoji"));
 
-        // Godina
+
         if (request.getGodina() != 0) existing.setGodina(request.getGodina());
 
-        // Broj: ako je prosleđen, može; inače ostaje trenutni
+
         existing.setBroj(request.getBroj());
 
-        // Studijski program
+
         if (request.getStudProgramOznaka() != null) {
             StudijskiProgram studProgram = studijskiProgramRepository.findByOznaka(request.getStudProgramOznaka())
                     .stream().findFirst()
@@ -149,19 +149,19 @@ public class StudentIndeksService {
             existing.setStudijskiProgram(studProgram);
         }
 
-        // Način finansiranja
+
         if (request.getNacinFinansiranja() != null) existing.setNacinFinansiranja(request.getNacinFinansiranja());
 
-        // Aktivno
+
         existing.setAktivan(request.isAktivan());
 
-        // VaziOd
+
         if (request.getVaziOd() != null) existing.setVaziOd(request.getVaziOd());
 
-        // Ostvareno ESPB
+
         if (request.getOstvarenoEspb() != null) existing.setOstvarenoEspb(request.getOstvarenoEspb());
 
-        // Student
+
         if (request.getStudentId() != null) {
             StudentPodaci student = studentPodaciRepository.findById(request.getStudentId())
                     .orElseThrow(() -> new RuntimeException("StudentPodaci not found with id " + request.getStudentId()));
@@ -172,7 +172,7 @@ public class StudentIndeksService {
         return StudentIndeksMaper.toResponse(existing);
     }
 
-    /* ---------------------- DELETE ---------------------- */
+
 
     @Transactional
     public void deleteIndeks(Long id) {

@@ -41,7 +41,7 @@ public class IzlazakNaIspitService {
         StudentIndeks indeks = prijava.getStudentIndeks();
         Predmet predmet = prijava.getIspit().getPredmet();
 
-        // 1. Predispitni poeni
+
         Double predispitni = studentPredispitniRepository
                 .sumPoeniForStudentAndPredmet(indeks.getId(), predmet.getId());
 
@@ -50,16 +50,16 @@ public class IzlazakNaIspitService {
         int ukupno = (int) (predispitni + izlazak.getPoeniSaIspita());
         izlazak.setUkupniPoeni(ukupno);
 
-        // 2. Uslov za polaganje
+
         if (ukupno < 51) return;
 
-        // 3. Da li već položen?
+
         boolean vecPolozio = polozeniPremetRepository
                 .existsByStudentIndeksAndPredmet(indeks, predmet);
 
         if (vecPolozio) return;
 
-        // 4. Upis u položene
+
         PolozeniPredmeti pp = new PolozeniPredmeti();
         pp.setStudentIndeks(indeks);
         pp.setPredmet(predmet);
@@ -68,7 +68,7 @@ public class IzlazakNaIspitService {
 
         polozeniPremetRepository.save(pp);
     }
-    //dodavanje bodova u studentPredispitneServis
+
     @Transactional
     public void deleteIzlazak(Long id) {
         IzlazakNaIspit izlaza=izlazakNaIspitRepository.findById(id).orElseThrow(() -> new RuntimeException("Izlazak sa ID " + id + " nije pronađen."));

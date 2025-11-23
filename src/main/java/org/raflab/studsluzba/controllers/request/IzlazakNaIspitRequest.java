@@ -15,6 +15,6 @@ public class IzlazakNaIspitRequest {
     private Boolean ponistio;
     private String napomena;
 
-
+    @NotNull
     private Long prijavaIspitaID;
 }

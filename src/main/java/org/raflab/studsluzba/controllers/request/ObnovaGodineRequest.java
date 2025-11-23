@@ -1,11 +1,16 @@
 package org.raflab.studsluzba.controllers.request;
 import lombok.Data;
+import lombok.NonNull;
+
 import java.time.LocalDate;
 
 @Data
 public class ObnovaGodineRequest {
-    private Long studentIndeksId;   // ID studenta
-    private Long skolskaGodinaId;   // ID školske godine
-    private LocalDate datumObnove;  // datum obnove
-    private String napomena;        // napomena
+    @NonNull
+    private Long studentIndeksId;
+    @NonNull
+    private Long skolskaGodinaId;
+    @NonNull
+    private LocalDate datumObnove;
+    private String napomena;
 }

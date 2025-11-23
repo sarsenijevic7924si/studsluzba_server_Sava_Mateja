@@ -12,15 +12,15 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentIndeksRequest { //TODO - add notNull annotations
+public class StudentIndeksRequest {
     @NonNull
-    private int godina; //ako npr student mastera upisuje neki program, a godina presla u sledecu???
+    private int godina;
     @NotEmpty
     private String studProgramOznaka;
     private String nacinFinansiranja;
     @NotNull
     private boolean aktivan;
-    private LocalDate vaziOd;//TODO - da li da setujm trenutni datum
+    private LocalDate vaziOd;
     @NotNull
     private Long studentId;
     @NotNull

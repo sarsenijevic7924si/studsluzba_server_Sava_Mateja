@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StudentPodaciRepository extends JpaRepository<StudentPodaci, Long> {	//	nasljedjene implementacije poput findById i findByAll
 
-	// Pretraga po imenu i prezimenu + student nema indeks
+
 	@Query("select sp from StudentPodaci sp where "
 			+ "(:ime is null or lower(sp.ime) like :ime) and "
 			+ "(:prezime is null or lower(sp.prezime) like :prezime) and "

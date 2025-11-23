@@ -20,7 +20,7 @@ public class StudijskiProgramService {
     private final StudijskiProgramRepository studijskiProgramRepository;
     private final VrstaStudijaRespository vrstaStudijaRespository;
 
-    // 🟢 SAVE
+
     @Transactional
     public StudijskiProgramResponse saveStudijskiProgram(StudijskiProgramReqest request) {
 
@@ -33,7 +33,7 @@ public class StudijskiProgramService {
         return StudijskiProgramMaper.toResponse(saved);
     }
 
-    // 🟢 UPDATE — koristi novi maper pristup i menja vrstu studija ako je poslata
+
     @Transactional
     public StudijskiProgramResponse updateStudijskiProgram(Long id, StudijskiProgramReqest request) {
         StudijskiProgram sp = studijskiProgramRepository.findById(id)
@@ -58,7 +58,7 @@ public class StudijskiProgramService {
         return StudijskiProgramMaper.toResponse(updated);
     }
 
-    // 🟢 DELETE
+
     @Transactional
     public void deleteStudijskiProgram(Long id) {
         StudijskiProgram sp = studijskiProgramRepository.findById(id)
@@ -71,12 +71,12 @@ public class StudijskiProgramService {
         studijskiProgramRepository.delete(sp);
     }
 
-    // 🟢 FIND ALL
+
     public List<StudijskiProgram> findAll() {
         return (List<StudijskiProgram>) studijskiProgramRepository.findAll();
     }
 
-    // 🟢 FIND BY ID
+
     public StudijskiProgramResponse findById(Long id) {
         StudijskiProgram sp = studijskiProgramRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Studijski program sa ID " + id + " nije pronađen."));

@@ -18,7 +18,7 @@ public class PolozeniPredmetRequest {
     @NonNull
     private LocalDate datumPriznavanja;
 
-    private String ustanova;             // za priznate predmete
+    private String ustanova;
 
     private NacinOcene nacin;
 }

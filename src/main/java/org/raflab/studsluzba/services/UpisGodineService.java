@@ -26,7 +26,7 @@ public class UpisGodineService {
     private final StudentIndeksRepository studentIndeksRepository;
     private final SkolskaGodinaRepository skolskaGodinaRepository;
 
-    // CREATE
+
     public UpisGodineResponse create(UpisGodineRequest request) {
         StudentIndeks si=studentIndeksRepository.findById(request.getStudentIndeksId())
                 .orElseThrow(() -> new RuntimeException("StudentIndeks sa datim ID ne postoji."));
@@ -37,13 +37,13 @@ public class UpisGodineService {
         return upisGodineMapper.toResponse(upis);
     }
 
-    // READ - get by id
+
     public UpisGodineResponse getById(Long id) {
         Optional<UpisGodine> optional = upisGodineRepository.findById(id);
         return optional.map(upisGodineMapper::toResponse).orElse(null);
     }
 
-    // READ - get all
+
     public List<UpisGodineResponse> getAll() {
         return upisGodineRepository.findAll()
                 .stream()
@@ -51,16 +51,16 @@ public class UpisGodineService {
                 .collect(Collectors.toList());
     }
 
-    // UPDATE
 
-    // DELETE
+
+
     public boolean delete(Long id) {
         if (!upisGodineRepository.existsById(id)) return false;
         upisGodineRepository.deleteById(id);
         return true;
     }
 
-    // CUSTOM — find by student indeks
+
     public List<UpisGodineResponse> findByStudentIndeks(Long indeksId) {
         return upisGodineRepository.findByStudentIndeksId(indeksId)
                 .stream()

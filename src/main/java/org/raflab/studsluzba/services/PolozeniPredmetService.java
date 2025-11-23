@@ -81,7 +81,7 @@ public class PolozeniPredmetService {
     }
 
 
-    //UPDATE
+
 
     @Transactional
     public PolozenPredmetResponse updatePolozeniPredmet(Long id, PolozeniPredmetRequest request) {
@@ -94,14 +94,14 @@ public class PolozeniPredmetService {
 
         if (request.getDatumPolaganja() != null) entity.setDatumPolaganja(request.getDatumPolaganja());
 
-        // Ako se menja student
+
         if (request.getStudentIndeksId() != null) {
             StudentIndeks student = indeksRepo.findById(request.getStudentIndeksId())
                     .orElseThrow(() -> new RuntimeException("Indeks nije pronađen"));
             entity.setStudentIndeks(student);
         }
 
-        // Ako se menja predmet
+
         if (request.getPredmetId() != null) {
             Predmet predmet = predmetRepo.findById(request.getPredmetId())
                     .orElseThrow(() -> new RuntimeException("Predmet nije pronađen"));
@@ -121,7 +121,6 @@ public class PolozeniPredmetService {
 
         polozeniRepo.delete(entity);
     }
-    //
     public Double proskeOcenaZaPeriod(LocalDate prvi,LocalDate drugi)
     {
         List<PolozeniPredmeti>polozeniPredmetis=polozeniRepo.getProsecnaOcenaZaGodine(prvi,drugi);

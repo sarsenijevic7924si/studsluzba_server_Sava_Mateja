@@ -36,7 +36,7 @@ public class StudentController {
 	private final StudentIndeksService studentIndeksService;
 
 
-	//POdaci
+
 	@PostMapping("/add")
 	public StudentPodaciResponse addStudentPodaci(@RequestBody StudentPodaciRequest request) {
 		return studentPodaciService.saveStudentPodaci(request);
@@ -60,7 +60,7 @@ public class StudentController {
 	}
 
 
-	// -------------------- StudentIndeks --------------------
+
 	@PostMapping("/indeks/add")
 	public StudentIndeksResponse addStudentIndeks(@RequestBody StudentIndeksRequest request) {
 
@@ -75,31 +75,6 @@ public class StudentController {
 	public StudentIndeksResponse getStudentAktivanIndeks(@PathVariable Long id) {
 		return studentIndeksService.findByAktivanAndId(id);
 	}
-	@GetMapping("/indeks/all")
-	public List<StudentIndeksResponse> getStudentIndeks() {
-		return studentIndeksService.findAllIndeksi();
-	}
-
-	//@GetMapping("/indeksi/{studentPodaciId}")
-	//public List<StudentIndeksResponse> getIndeksiForStudentPodaci(@PathVariable Long studentPodaciId) {
-		//return studentIndeksService.findIndeksiForStudentPodaciId(studentPodaciId)
-			//	.stream()
-			////	.map(studentIndeksMaper::toResponse)
-			//	.collect(Collectors.toList());
-	//}
-
-	//@GetMapping("/indeks/search")
-//	public Page<StudentIndeksResponse> searchIndeksi(@RequestParam(required = false) String ime,
-	//												 @RequestParam(required = false) String prezime,
-			//										 @RequestParam(required = false) String studProgram,
-					///								 @RequestParam(required = false) Integer godina,
-					//								 @RequestParam(required = false) Integer broj,
-					//								 @RequestParam(defaultValue = "0") int page,
-					//								 @RequestParam(defaultValue = "10") int size) {
-	//	return studentIndeksService.searchIndeksi(ime, prezime, studProgram, godina, broj,
-	//					PageRequest.of(page, size, Sort.by("id").descending()))
-	//			.map(studentIndeksMaper::toResponse);
-	//}
 
 	@PatchMapping("/indeks/update/{id}")
 	public StudentIndeksResponse updateStudentIndeks(@PathVariable Long id,

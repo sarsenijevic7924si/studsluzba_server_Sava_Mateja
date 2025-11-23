@@ -26,7 +26,7 @@ public class PrijavaIspitaService {
     private final IspitRepository ispitRepository;
     private final StudentIndeksRepository studentIndeksRepository;
 
-    // 🔹 Kreiranje prijave ispita
+
     public PrijavaIspitaResponse createPrijavaIspita(PrijavaIspitaRequest request) {
         Ispit ispit = ispitRepository.findById(request.getIspitId())
                 .orElseThrow(() -> new RuntimeException("Ispit nije pronađen"));
@@ -38,7 +38,7 @@ public class PrijavaIspitaService {
         return PrijavaIspitaMaper.toPrijavaIspitaResponse(saved);
     }
 
-    // 🔹 Ažuriranje prijave
+
     public PrijavaIspitaResponse updatePrijavaIspita(Long id, PrijavaIspitaRequest request) {
         PrijavaIspita prijava = prijavaIspitaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prijava ispita nije pronađena"));
@@ -55,26 +55,24 @@ public class PrijavaIspitaService {
         return PrijavaIspitaMaper.toPrijavaIspitaResponse(updated);
     }
 
-    // 🔹 Dohvatanje svih prijava
+
     public List<PrijavaIspitaResponse> findAll() {
         return prijavaIspitaRepository.findAll()
                 .stream()
                 .map(PrijavaIspitaMaper::toPrijavaIspitaResponse).collect(Collectors.toList());
     }
 
-    // 🔹 Dohvatanje po ID
+
     public PrijavaIspitaResponse findById(Long id) {
         PrijavaIspita prijava = prijavaIspitaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prijava ispita nije pronađena"));
         return PrijavaIspitaMaper.toPrijavaIspitaResponse(prijava);
     }
 
-    // 🔹 Brisanje
+
     public void deleteById(Long id) {
         prijavaIspitaRepository.deleteById(id);
     }
-    //Trazenje ne polozenih
 
-    //NePolozenih IspitREsponse
 
 }

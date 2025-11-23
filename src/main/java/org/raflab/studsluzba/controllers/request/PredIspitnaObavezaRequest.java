@@ -8,11 +8,11 @@ import javax.validation.constraints.NotNull;
 @Data
 public class PredIspitnaObavezaRequest {
     @NotEmpty
-    private String vrsta;// TEST, KOLOKVIJUM, SEMINARSKI
+    private String vrsta;
     @NotNull
     private Integer maksimalanBrojPoena;
     @NotNull
-    private Long predmetId; // samo ID predmeta
+    private Long predmetId;
     @NotNull
     private Long skolskaGodinaId;
 }

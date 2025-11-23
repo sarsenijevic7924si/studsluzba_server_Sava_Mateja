@@ -3,6 +3,7 @@ package org.raflab.studsluzba.controllers;
 import lombok.AllArgsConstructor;
 import org.raflab.studsluzba.controllers.request.UplataRequest;
 import org.raflab.studsluzba.controllers.response.UplataResponse;
+import org.raflab.studsluzba.controllers.response.VracaSumuResponse;
 import org.raflab.studsluzba.services.UplataServis;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +47,7 @@ public class UplataController {
     }
 
     @GetMapping("/preostalo")
-    public double getPreostalaUplataEUR(@RequestParam Long studentIndeksId) {
+    public VracaSumuResponse getPreostalaUplataEUR(@RequestParam Long studentIndeksId) {
         return uplataService.getPreostalaUplataEUR(studentIndeksId);
     }
 }

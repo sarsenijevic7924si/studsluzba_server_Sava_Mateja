@@ -36,9 +36,9 @@ public class Seeder implements CommandLineRunner {
     @Autowired private VisokaSkolaRepository visokaSkolaRepository;
     @Autowired private SrednjaSkolaRepository srednjaSkolaRepository;
     @Autowired private VrstaStudijaRespository vrstaStudijaRepository;
-    @Autowired private NastavnikZvanjeRepository nzRepo; // already declared but safe
-    @Autowired private PredIspitnaObavezaRepository pioRepo; // alias
-    // add other repos if you have them
+    @Autowired private NastavnikZvanjeRepository nzRepo;
+    @Autowired private PredIspitnaObavezaRepository pioRepo;
+
 
     @Override
     @Transactional

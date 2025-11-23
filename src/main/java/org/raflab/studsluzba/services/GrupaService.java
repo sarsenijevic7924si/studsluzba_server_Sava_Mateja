@@ -23,7 +23,7 @@ public class GrupaService {
     private final PredmetRepository predmetRepository;
     private final GrupaMaper grupaMapper;
 
-    // CREATE
+
     public GrupaResponse createGrupa(GrupaRequest request) {
         StudijskiProgram studijskiProgram = studijskiProgramRepository.findById(request.getStudijskiProgramID())
                 .orElseThrow(() -> new RuntimeException("Studijski program nije pronađen sa ID: " + request.getStudijskiProgramID()));
@@ -35,7 +35,7 @@ public class GrupaService {
         return grupaMapper.toResponse(sacuvana);
     }
 
-    // READ ALL
+
     public List<GrupaResponse> getAllGrupe() {
         return grupaRepository.findAll()
                 .stream()
@@ -43,14 +43,14 @@ public class GrupaService {
                 .collect(Collectors.toList());
     }
 
-    // READ BY ID
+
     public GrupaResponse getGrupaById(Long id) {
         Grupa grupa = grupaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Grupa nije pronađena sa ID: " + id));
         return grupaMapper.toResponse(grupa);
     }
 
-    // UPDATE
+
     public GrupaResponse updateGrupa(Long id, GrupaRequest request) {
         Grupa grupa = grupaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Grupa nije pronađena sa ID: " + id));
@@ -67,7 +67,7 @@ public class GrupaService {
         return grupaMapper.toResponse(sacuvana);
     }
 
-    // DELETE
+
     public void deleteGrupa(Long id) {
         if (!grupaRepository.existsById(id)) {
             throw new RuntimeException("Grupa nije pronađena sa ID: " + id);

@@ -6,7 +6,7 @@ import org.raflab.studsluzba.model.Nastavnik;
 import org.raflab.studsluzba.model.NastavnikZvanje;
 
 public class NastavnikZvanjeMaper {
-    // Pretvara request u entitet baze
+
     public static NastavnikZvanje toEntity(NastavnikZvanjeRequest request, Nastavnik nastavnik) {
         if (request == null) return null;
 
