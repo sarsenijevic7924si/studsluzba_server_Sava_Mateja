@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Entity
@@ -26,7 +27,7 @@ public class StudijskiProgram {
 	@JsonIgnore
 	@OneToMany(mappedBy = "studProgram")
 	private List<Predmet> predmeti;
-
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	@ManyToOne
 	private VrstaStudija vrstaStudija;
 }

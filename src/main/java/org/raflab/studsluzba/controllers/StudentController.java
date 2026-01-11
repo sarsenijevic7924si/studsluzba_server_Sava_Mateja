@@ -71,6 +71,10 @@ public class StudentController {
 	public StudentIndeksResponse getStudentIndeks(@PathVariable Long id) {
 		return studentIndeksService.findById(id);
 	}
+	@GetMapping("/indeks/all")
+	public List<StudentIndeksResponse> getAllIndeks() {
+		return studentIndeksService.findAllIndeksi();
+	}
 	@GetMapping("/indeks/aktivan/{id}")
 	public StudentIndeksResponse getStudentAktivanIndeks(@PathVariable Long id) {
 		return studentIndeksService.findByAktivanAndId(id);
