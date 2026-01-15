@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.raflab.studsluzba.controllers.request.StudentPodaciRequest;
 import org.raflab.studsluzba.controllers.response.StudentPodaciResponse;
 import org.raflab.studsluzba.controllers.response.UpisGodineResponse;
+import org.raflab.studsluzba.maperi.IspitMaper;
 import org.raflab.studsluzba.maperi.StudentPodaciMaper;
 import org.raflab.studsluzba.maperi.StudijskiProgramMaper;
 import org.raflab.studsluzba.model.*;
@@ -139,6 +140,12 @@ public class StudentPodaciService {
         StudentPodaci student = studentPodaciRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student sa ID " + id + " ne postoji"));
         return StudentPodaciMaper.toResponse(student);
+    }
+    public List<StudentPodaciResponse> getStudentSrednja(String naziv) {
+        List<StudentPodaci> studenti = studentPodaciRepository.findBySrednjaSkola(naziv);
+        return studenti.stream()
+                .map(StudentPodaciMaper::toResponse)
+                .collect(Collectors.toList());
     }
     public Page<StudentPodaciResponse> findStudentByImeiPrezime(
             String ime,

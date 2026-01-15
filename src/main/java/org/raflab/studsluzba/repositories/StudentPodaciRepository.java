@@ -39,6 +39,8 @@ public interface StudentPodaciRepository extends JpaRepository<StudentPodaci, Lo
 
 	// Pretraga po imenu i prezimenu (case-insensitive)
 	List<StudentPodaci> findByImeIgnoreCaseAndPrezimeIgnoreCase(String ime, String prezime);
+	@Query("select sp from StudentPodaci sp where sp.srednjaSkola.naziv like :nazivSrednje")
+	List<StudentPodaci>findBySrednjaSkola(String nazivSrednje);
 
 	@Query("select sp from StudentPodaci sp where "
 			+ "(:ime is null or lower(sp.ime) like :ime) and "

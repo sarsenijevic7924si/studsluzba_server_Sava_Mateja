@@ -111,9 +111,13 @@ public class StudentController {
 
 		return studentPodaciService.upisiStudentaNaGodinu(studentId, skolskaGodinaId, godinaKojaSeUpisuje);
 	}
-	@GetMapping("/srednja")
-	public List<StudentIndeksResponse> getBySrednjaSkola(@RequestParam String naziv) {
+	@GetMapping("/srednjaIndeks")
+	public List<StudentIndeksResponse> getBySrednjaSkolaIndeks(@RequestParam String naziv) {
 		return studentIndeksService.findStudentSrednja(naziv);
+	}
+	@GetMapping("/srednja")
+	public List<StudentPodaciResponse> getBySrednjaSkola(@RequestParam String naziv) {
+		return studentPodaciService.getStudentSrednja(naziv);
 	}
 	@GetMapping("/pretraga")
 	public Page<StudentPodaciResponse> pretragaStudenata(
