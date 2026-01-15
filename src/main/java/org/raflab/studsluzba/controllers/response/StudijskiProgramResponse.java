@@ -1,5 +1,6 @@
 package org.raflab.studsluzba.controllers.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
@@ -14,5 +15,6 @@ public class StudijskiProgramResponse {
     private Integer ukupnoEspb;
 
     private Long vrstaStudijaId;
+    @JsonIgnoreProperties
     private String vrstaStudija;
 }

@@ -83,6 +83,11 @@ public class PredmetService {
                 .map(PredmetMaper::toResponse)
                 .collect(Collectors.toList());
     }
+    public List<PredmetResponse> getPredmetForNazivStudPrograma(String studProgram){
+        return predmetRepository.findByNazivStuda(studProgram).stream()
+                .map(PredmetMaper::toResponse)
+                .collect(Collectors.toList());
+    }
     public List<PredmetResponse> getNePolozeniPredmeti(int broj, int godina, String oznaka) {
 
         List<SlusaPredmet> spList =

@@ -34,6 +34,10 @@ public class PredmetController {
 	public List<PredmetResponse> getPredmetiForGodinaAkreditacije(@PathVariable Integer godinaAkreditacije){
 		return predmetService.getPredmetForGodinaAkreditacije(godinaAkreditacije);
 	}
+	@GetMapping(path = "/studNaziv")
+	public List<PredmetResponse> getPredmetoPoNzivuStudijskog(@RequestParam("naziv") String naziv) {
+		return predmetService.getPredmetForNazivStudPrograma(naziv);
+	}
 	@PostMapping(path = "/add")
 	public PredmetResponse addPredmet(@RequestBody PredmetRequest request) {
 		return predmetService.savePredmet(request);
@@ -58,5 +62,6 @@ public class PredmetController {
 	{
 		return predmetService.FindPredmetPoProgramu(sps);
 	}
+
 
 }
