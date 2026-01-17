@@ -2,6 +2,7 @@ package org.raflab.studsluzba.controllers.request;
 
 import lombok.Data;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -21,13 +22,12 @@ public class StudentPodaciRequest {
     private LocalDate datumRodjenja;
 
     private String mestoRodjenja;
-    @NotEmpty
     private String mestoPrebivalista;
 
     private String drzavaRodjenja;
     @NotEmpty
     private String drzavljanstvo;
-    // not null
+    @NotEmpty
     private String nacionalnost;   // samoizjasnjavanje, moze bilo sta
     @NotEmpty
     private Character pol;    // not null
@@ -35,6 +35,7 @@ public class StudentPodaciRequest {
     private String adresa;  // not null
     private String brojTelefonaMobilni;
     private String brojTelefonaFiksni;
+    @Email
     @NotEmpty
     private String email;  // not null
 

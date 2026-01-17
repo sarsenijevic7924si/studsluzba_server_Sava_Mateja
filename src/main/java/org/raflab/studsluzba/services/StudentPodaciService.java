@@ -36,13 +36,24 @@ public class StudentPodaciService {
 
     @Transactional
     public StudentPodaciResponse saveStudentPodaci(StudentPodaciRequest request) {
-        SrednjaSkola srednjaSkola=srednjaSkolaRepository.findById(request.getSrednjaId())
-                .orElseThrow(() -> new RuntimeException("Srednja nije pronađen"));
 
-        StudentPodaci sp=StudentPodaciMaper.toEntity(request,srednjaSkola);
-        studentPodaciRepository.save(sp);
-        return StudentPodaciMaper.toResponse(sp);
+        // 🔹 Proveravamo da li je srednjaId prosleđena
+        SrednjaSkola srednjaSkola = null;
+        if (request.getSrednjaId() != null) {
+            srednjaSkola = srednjaSkolaRepository.findById(request.getSrednjaId())
+                    .orElseThrow(() -> new RuntimeException("Srednja škola sa ID " + request.getSrednjaId() + " nije pronađena!"));
+        }
+
+        // 🔹 Mapiranje requesta u entity
+        StudentPodaci studentEntity = StudentPodaciMaper.toEntity(request, srednjaSkola);
+
+        // 🔹 Čuvanje entity u bazi
+        studentPodaciRepository.save(studentEntity);
+
+        // 🔹 Mapiranje nazad u response
+        return StudentPodaciMaper.toResponse(studentEntity);
     }
+
     @Transactional
     public UpisGodineResponse upisiStudentaNaGodinu(Long studentId,
                                                     Long skolskaGodinaId,

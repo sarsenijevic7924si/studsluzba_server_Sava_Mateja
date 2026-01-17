@@ -16,5 +16,7 @@ public interface GrupaRepository extends JpaRepository<Grupa, Long> {
     List<Grupa> findByStudijskiProgram_Id(Long studijskiProgramId);
 
 
+
+
     List<Grupa> findByPredmeti_Id(Long predmetId);
 }

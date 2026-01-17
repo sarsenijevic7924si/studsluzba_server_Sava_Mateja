@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StudentPodaciMaper {
+
     public static StudentPodaci toEntity(StudentPodaciRequest request, SrednjaSkola srednjaSkola) {
         if (request == null) return null;
 
@@ -33,11 +34,14 @@ public class StudentPodaciMaper {
         student.setAdresaStanovanja(request.getAdresaStanovanja());
         student.setUspehSrednja(request.getUspehSrednja());
         student.setUspehPrijemni(request.getUspehPrijemni());
-        student.setSrednjaSkola(srednjaSkola);
+
+        // 🔹 Provera da li srednjaSkola postoji
+        if (srednjaSkola != null) {
+            student.setSrednjaSkola(srednjaSkola);
+        }
 
         return student;
     }
-
 
     public static StudentPodaciResponse toResponse(StudentPodaci student) {
         if (student == null) return null;
@@ -63,10 +67,12 @@ public class StudentPodaciMaper {
         response.setLicnuKartuIzdao(student.getLicnuKartuIzdao());
         response.setMestoStanovanja(student.getMestoStanovanja());
         response.setAdresaStanovanja(student.getAdresaStanovanja());
+
+        // 🔹 Sigurno dohvatanje naziva srednje škole
         response.setNazivSrednja(
-                student.getSrednjaSkola() == null
-                        ? ""
-                        : student.getSrednjaSkola().getNaziv()
+                student.getSrednjaSkola() != null
+                        ? student.getSrednjaSkola().getNaziv()
+                        : ""
         );
 
         return response;
