@@ -91,4 +91,11 @@ public class UplataServis {
 
         return vracaSumuResponse;
     }
+    public List<UplataResponse> getUplatePoIndeksu(Integer broj,Integer godina,String oznaka) {
+        List<Uplata>uplataLista=uplataRepository.findByStudentIndeks(broj,godina,oznaka);
+        return uplataLista
+                .stream()
+                .map(uplataMapper::toResponse)
+                .collect(Collectors.toList());
+    }
 }

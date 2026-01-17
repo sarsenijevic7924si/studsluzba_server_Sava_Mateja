@@ -50,4 +50,8 @@ public class UplataController {
     public VracaSumuResponse getPreostalaUplataEUR(@RequestParam Long studentIndeksId) {
         return uplataService.getPreostalaUplataEUR(studentIndeksId);
     }
+    @GetMapping("/uplateZaIndeks")
+    public List<UplataResponse>getUplateZaIndeks(@RequestParam Integer broj,@RequestParam Integer godina,@RequestParam String oznaka) {
+        return uplataService.getUplatePoIndeksu(broj,godina,oznaka);
+    }
 }
